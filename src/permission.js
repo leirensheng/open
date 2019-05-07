@@ -1,4 +1,7 @@
 import router from './router';
+import {
+basicRoutes, userRoutes, adminRoutes, lastRoute,
+} from './router';
 import store from './store';
 import NProgress from 'nprogress'; // Progress 进度条
 import 'nprogress/nprogress.css'; // Progress 进度条样式
@@ -8,6 +11,7 @@ import {
 import {
   getToken,
 } from '@/utils/auth'; // 验权
+import getRoute from '@/api/accessRoute';
 
 NProgress.configure({
   showSpinner: false,
@@ -15,12 +19,8 @@ NProgress.configure({
 
 const whiteList = ['/login']; // 不重定向白名单
 router.beforeEach(async (to, from, next) => {
-  // start progress bar
   NProgress.start();
-
-  // determine whether the user has logged in
   const hasToken = getToken();
-
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
@@ -33,18 +33,25 @@ router.beforeEach(async (to, from, next) => {
         next();
       } else {
         try {
-          // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          await store.dispatch('getUserInfo');
+          const [{ roles }, { data: routes }] = await Promise.all([store.dispatch('getUserInfo'), getRoute()]);
+            const paths = routes.map(one => one.path);
+            // 找出第一层的路由
+           const firstRoute = [...new Set(routes.map(one => `/${one.path.split('/')[1]}`))];
 
-          // generate accessible routes map based on roles
-          // const accessRoutes = await store.dispatch('permission/generateRoutes', roles);
+           const targetRoutes = roles[0] == 'admin' ? adminRoutes : userRoutes;
+          // 前端的第一层路由
+          const frontFirstRoute = targetRoutes.filter(one => firstRoute.includes(one.path));
 
-          // dynamically add accessible routes
-          // router.addRoutes(accessRoutes);
+          //  找出有权限的路由,这里默认只找了2层的
+           const accessRoutes = frontFirstRoute.map(one => {
+              one.children = one.children.filter(childRoute => paths.includes(`${one.path}/${childRoute.path}`));
+              return one;
+            });
 
-          // hack method to ensure that addRoutes is complete
-          // set the replace: true, so the navigation will not leave a history record
+          store.commit('SAVE_ROUTES', [...basicRoutes, ...accessRoutes, lastRoute]);
+
+          router.addRoutes([...accessRoutes, lastRoute]);
           next({ ...to, replace: true });
         } catch (error) {
           console.log(error);

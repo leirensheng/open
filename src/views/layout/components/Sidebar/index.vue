@@ -32,10 +32,9 @@
     computed: {
       ...mapGetters([
         'sidebar',
+        'routes',
       ]),
-      routes() {
-        return this.$router.options.routes;
-      },
+
       variables() {
         return variables;
       },

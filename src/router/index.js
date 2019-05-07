@@ -23,9 +23,10 @@ Vue.use(Router);
   }
 * */
 
-const basicRouter = [
+export const basicRoutes = [
   {
     path: '/',
+    hidden: true,
     component: () => import('@/views/home/home.vue'),
   },
   {
@@ -33,14 +34,12 @@ const basicRouter = [
     component: () => import('@/views/login/index'),
     hidden: true,
   },
-  {
-    path: '/test',
-    component: () => import('@/views/test/test.vue'),
-  },
+
   {
     path: '/welcome',
     redirect: 'welcome/index',
     component: Layout,
+    hidden: true,
     children: [
       {
         path: 'index',
@@ -53,13 +52,13 @@ const basicRouter = [
     component: () => import('@/views/404'),
     hidden: true,
   },
-  {
-    path: '*',
-    redirect: '/404',
-    hidden: true,
-  },
 ];
-export const userRouter = [
+export const lastRoute = {
+  path: '*',
+  redirect: '/404',
+  hidden: true,
+};
+export const userRoutes = [
   {
     path: '/account',
     component: Layout,
@@ -116,12 +115,10 @@ export const userRouter = [
        },
     ],
   },
-
-  ...basicRouter,
 ];
 
 
-export const constantRouterMap = [
+export const adminRoutes = [
   {
     path: '/admin',
     meta: {
@@ -244,9 +241,6 @@ export const constantRouterMap = [
        },
     ],
   },
-
-
-  ...basicRouter,
 ];
 
 export default new Router({
@@ -254,5 +248,7 @@ export default new Router({
   scrollBehavior: () => ({
     y: 0,
   }),
-  routes: [...constantRouterMap],
+  routes: [...basicRoutes],
+
+  // routes: [...basicRoutes, ...adminRoute, lastRoute],
 });

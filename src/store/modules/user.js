@@ -15,6 +15,7 @@ const user = {
     name: '',
     avatar: '',
     roles: [],
+    routes: [],
   },
 
   mutations: {
@@ -29,6 +30,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles;
+    },
+    SAVE_ROUTES: (state, routes) => {
+      state.routes = routes;
     },
   },
 
@@ -94,6 +98,8 @@ const user = {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '');
           commit('SET_ROLES', []);
+          commit('SET_ROUTES', []);
+
           removeToken();
           resolve();
         }).catch(error => {
