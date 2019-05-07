@@ -1,0 +1,39 @@
+//sidebar
+$menuText:#bfcbd9;
+$menuActiveText:#409EFF;
+$subMenuActiveText:#f4f4f5; //https://github.com/ElemeFE/element/issues/12951
+
+$menuBg:#304156;
+$menuHover:#263445;
+
+$subMenuBg:#1f2d3d;
+$subMenuHover:#001528;
+
+$sideBarWidth: 180px;
+
+// the :export directive is the magic sauce for webpack
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+}
+
+
+// ======= 字体色 ==========
+$--color-orange: #FA8C16;
+$--color-red: #E60012;
+$--color-grey--textual: #666666;
+$--color-disabled: #cccccc;
+
+
+// border colors 边框色
+$--border-gray-1: #dcdee0;
+
+
+
+$--bg-grey-1: #f7f9fa;

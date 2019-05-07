@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "Utils/*": ["src/utils/*"],
+      "Mixins/*": ["src/mixins/*"],
+      "Api/*": ["src/api/*"],
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

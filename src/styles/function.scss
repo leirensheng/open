@@ -1,0 +1,18 @@
+// 浮动工具类 fl, fr
+@each $k,
+$pos in (fl: left, fr: right) {
+  .f-#{$k} {
+    float: $pos;
+  }
+}
+
+.f-clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
