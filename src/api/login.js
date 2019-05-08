@@ -1,23 +1,20 @@
 import fetch from '@/fetch';
 
-export function login(username, password) {
+export function login(loginName, password) {
   return fetch({
-    url: '/user/login',
+    url: '/open/supplier/login',
     method: 'post',
     data: {
-      username,
+      loginName,
       password,
     },
   });
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return fetch({
-    url: '/user/info',
+    url: '/open/supplier/user/viewCurrentLoginInfo',
     method: 'get',
-    params: {
-      token,
-    },
   });
 }
 

@@ -20,7 +20,7 @@
     </div>
     <div class="right">
       <div
-        v-if="!token"
+        v-if="!name"
         class="no-login">
         <router-link to="/login">
           <img
@@ -83,20 +83,18 @@
     computed: {
       ...mapGetters([
         'avatar',
-        'token',
         'name',
-        'roles',
+        'hasUserRoute',
       ]),
 
       menusShow() {
-        switch (this.roles[0]) {
-        case 'admin':
+        if (this.name) {
+          if (this.hasUserRoute) {
+            return this.menus.filter(one => one.name !== '管理中心');
+          }
           return this.menus.filter(one => one.name !== '用户中心');
-        case 'user':
-          return this.menus.filter(one => one.name !== '管理中心');
-        default:
-          return this.menus.filter(one => !['管理中心', '用户中心'].includes(one.name));
         }
+        return this.menus.filter(one => !['管理中心', '用户中心'].includes(one.name));
       },
 
     },

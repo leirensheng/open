@@ -8,9 +8,7 @@ import 'nprogress/nprogress.css'; // Progress 进度条样式
 import {
   Message,
 } from 'element-ui';
-import {
-  getToken,
-} from '@/utils/auth'; // 验权
+
 import getRoute from '@/api/accessRoute';
 
 NProgress.configure({
@@ -20,28 +18,23 @@ NProgress.configure({
 const whiteList = ['/login']; // 不重定向白名单
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
-  const hasToken = getToken();
-  if (hasToken) {
-    if (to.path === '/login') {
-      // if is logged in, redirect to the home page
+  if (store.getters.hasLogin) {
+    if (to.path === '/login') { // 已经登录不允许跳转登录页
       next({ path: '/welcome/index' });
       NProgress.done();
-    } else {
-      // determine whether the user has obtained his permission roles through getInfo
-      const hasRoles = store.getters.roles && store.getters.roles.length > 0;
-      if (hasRoles) {
-        next();
-      } else {
+    } else if (store.getters.name) {
+      next();
+      NProgress.done();
+     } else {
         try {
-          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const [{ roles }, { data: routes }] = await Promise.all([store.dispatch('getUserInfo'), getRoute()]);
+          const [, { model: routes }] = await Promise.all([store.dispatch('getUserInfo'), getRoute()]);
             const paths = routes.map(one => one.path);
             // 找出第一层的路由
-           const firstRoute = [...new Set(routes.map(one => `/${one.path.split('/')[1]}`))];
+           const firstPath = [...new Set(routes.map(one => `/${one.path.split('/')[1]}`))];
 
-           const targetRoutes = roles[0] == 'admin' ? adminRoutes : userRoutes;
+           const targetRoutes = [...adminRoutes, ...userRoutes];
           // 前端的第一层路由
-          const frontFirstRoute = targetRoutes.filter(one => firstRoute.includes(one.path));
+          const frontFirstRoute = targetRoutes.filter(one => firstPath.includes(one.path));
 
           //  找出有权限的路由,这里默认只找了2层的
            const accessRoutes = frontFirstRoute.map(one => {
@@ -50,31 +43,28 @@ router.beforeEach(async (to, from, next) => {
             });
 
           store.commit('SAVE_ROUTES', [...basicRoutes, ...accessRoutes, lastRoute]);
-
           router.addRoutes([...accessRoutes, lastRoute]);
+
+        // 判断是否有用户中心的路由，用于显示 用户中心 还是 管理中心
+         const hasUserRoute = userRoutes.some(one => firstPath.includes(one.path));
+         store.commit('SAVE_USER_ROUTE_STATE', hasUserRoute);
+
           next({ ...to, replace: true });
+          NProgress.done();
         } catch (error) {
           console.log(error);
-          // remove token and go to login page to re-login
-          await store.dispatch('user/resetToken');
           Message.error(error || 'Has Error');
           next(`/login?redirect=${to.path}`);
           NProgress.done();
         }
       }
-    }
-  } else {
-    /* has no token */
-
-    if (whiteList.indexOf(to.path) !== -1) {
-       // in the free login whitelist, go directly
-      next();
-    } else {
-      // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.path}`);
-      NProgress.done();
-    }
-  }
+  } else if (whiteList.indexOf(to.path) !== -1) { // 未登录但是允许跳转的路由，直接通过
+     next();
+     NProgress.done();
+   } else { // 未登录非白名单，都重定向到登录页
+     next(`/login?redirect=${to.path}`);
+     NProgress.done();
+   }
 });
 
 router.afterEach(() => {

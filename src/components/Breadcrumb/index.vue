@@ -33,10 +33,10 @@
     },
     computed: {
       ...mapGetters([
-        'roles',
+        'hasUserRoute',
       ]),
       firstMatch() {
-        const isAdmin = this.roles.indexOf('admin') !== -1;
+        const isAdmin = !this.hasUserRoute;
         return { path: '/welcome/index', meta: { title: isAdmin ? '管理中心' : '用户中心' } };
       },
     },
