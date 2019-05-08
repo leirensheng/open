@@ -32,6 +32,6 @@
   vertical-align: middle;
 }
 .menuItem-title {
-  margin-left: 15px;
+  margin-left: 4px;
 }
 </style>

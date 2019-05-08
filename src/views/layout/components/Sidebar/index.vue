@@ -10,7 +10,7 @@
       mode="vertical">
       <div class="logo">
         <router-link to="/welcome">
-          <span>天戟 ERP开放平台</span>
+          <span>天戟ERP开放平台</span>
         </router-link>
       </div>
       <sidebar-item
@@ -48,7 +48,6 @@
 <style lang="scss" scoped>
 .logo {
   cursor: pointer;
-  // position: relative;
   height: 56px;
   background-color: #2E82FF;
   padding: 15px 18px;
@@ -57,16 +56,6 @@
   line-height: 28px;
   font-family:HYk1gj;
   font-weight:bold;
-  // .logo-icon {
-  //   font-size: 26px;
-  //   margin-right: 8px;
-  //   color: #ffffff;
-  // }
-  // .logo-text {
-  //   position: absolute;
-  //   top: 20px;
-  //   left: 52px;
-  //   color: #ffffff;
-  // }
+
 }
 </style>

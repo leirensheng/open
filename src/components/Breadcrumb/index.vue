@@ -22,6 +22,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
   import pathToRegexp from 'path-to-regexp';
 
   export default {
@@ -29,6 +30,15 @@
       return {
         levelList: null,
       };
+    },
+    computed: {
+      ...mapGetters([
+        'roles',
+      ]),
+      firstMatch() {
+        const isAdmin = this.roles.indexOf('admin') !== -1;
+        return { path: '/welcome/index', meta: { title: isAdmin ? '管理中心' : '用户中心' } };
+      },
     },
     watch: {
       $route() {
@@ -42,8 +52,8 @@
       getBreadcrumb() {
         let matched = this.$route.matched.filter(item => item.name);
         const first = matched[0];
-        if (first && first.name !== 'dashboard') {
-          matched = [{ path: '/dashboard', meta: { title: '首页' } }].concat(matched);
+        if (first && first.name !== 'welcome/index') {
+          matched = [this.firstMatch, ...matched];
         }
         const levelListFilter = v => v.meta && v.meta.title && v.meta.breadcrumb !== false;
 

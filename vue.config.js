@@ -41,7 +41,7 @@ module.exports = {
   configureWebpack: {
     // We provide the app's title in Webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
-    name: '客服管理系统',
+    name: '天戟ERP开放平台',
     resolve: {
       alias: {
         '@': resolve('src'),

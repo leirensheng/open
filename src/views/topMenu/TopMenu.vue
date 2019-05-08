@@ -122,7 +122,7 @@
      align-items: center;
      justify-content: space-between;
      .logo{
-       padding-left:30px;
+       margin-left:30px;
        width: 140px;
        flex:0 0 auto;
      }

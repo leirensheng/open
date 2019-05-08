@@ -6,7 +6,6 @@
       :columns="columns"
       :get-data="getData"
       :label-width="'120px'"
-      :page-title="pageTitle"
       @endUse="handleEndUse"
       @startUse="handleStartUse" />
   </div>
@@ -22,7 +21,6 @@
 
     data() {
       return {
-        pageTitle: '人员管理',
         tableBtnsConfig: [
           {
             name: '编辑',
