@@ -227,6 +227,7 @@
           show: false,
           mode: '', // 编辑或者新增，
           form: '', // 表单
+          index: '', // 当前编辑行在表格的索引
           items: [], // 字段
           loading: false,
           labelWidth: this.labelWidth,
@@ -321,17 +322,19 @@
       handleTableBtnClick(config, rowData) {
         // 组件内部完成弹框
         if (config.editConfig) {
-          this.addOrEdit(config.editConfig.title, rowData);
+          const index = this.tableDataHandled.indexOf(rowData);
+          this.addOrEdit(config.editConfig.title, rowData, index);
         }
         // 需父组件处理
         if (config.eventName) {
           this.$emit(config.eventName, rowData, this.tableDataHandled);
         }
       },
-      addOrEdit(title, rowData) {
+      addOrEdit(title, rowData, index) {
         let mode = 'add';
         if (rowData) {
           mode = 'edit';
+          this.dataForDialog.index = index;
           this.dataForDialog.form = rowData;
         }
         this.dataForDialog.mode = mode;
@@ -345,9 +348,13 @@
       saveDialogEdit(form) {
         const config = this.tableBtnsConfig.find(one => one.editConfig);
         if (config && config.editConfig.handler) {
-          config.editConfig.handler(form).then(() => {
+          config.editConfig.handler(form).then(({ model }) => {
+            if (model && !Array.isArray(model)) {
+              this.$set(this.tableDataHandled, this.dataForDialog.index, model);
+            } else {
+              this.search();
+            }
             this.dataForDialog.show = false;
-            this.search();
           }).catch(e => {
             this.$message.error('编辑失败');
           });
@@ -387,12 +394,9 @@
         this.getData(finalParams)
           .then(res => {
             this.loading = false;
-            if (res.code == 0) {
-              this.tableDataHandled = res.data;
-              this.total = res.total;
-            } else {
-              this.$message.error(res.body.msg);
-            }
+            const { model: { records, total } } = res;
+            this.tableDataHandled = records;
+            this.total = total;
           })
           .catch(() => {
             this.loading = false;

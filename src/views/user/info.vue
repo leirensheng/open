@@ -4,12 +4,13 @@
       :table-btns-config="tableBtnsConfig"
       :columns="columns"
       :label-width="'130px'"
-      :get-data="getData"
+      :get-data="list"
       @seeFail="handleSeeFail" />
   </div>
 </template>
 <script>
   import vTable from '@/components/vTable/vTable.vue';
+  import { list, update } from '@/api/systemSupplier.js';
 
   export default {
     name: 'Info',
@@ -23,6 +24,7 @@
             name: '备注',
             editConfig: {
               title: '添加备注',
+              handler: update,
             },
 
           },
@@ -60,16 +62,16 @@
           {
             name: '区域',
             required: true,
-            id: 'region',
+            id: 'area',
           },
           {
             name: '正式对接秘钥',
-            id: 'secret',
+            id: 'appSecret',
           },
 
           {
             name: '状态',
-            id: 'status',
+            id: 'state',
             queryType: 'select',
             required: true,
             options: [{ name: '启用', id: 1 }, { name: '禁用', id: 0 }],
@@ -88,16 +90,17 @@
           },
           {
             name: '最近更新人',
-            id: 'lastModify',
+            id: 'updateUser',
           },
           {
             name: '最近更新时间',
-            id: 'lastModifyTime',
+            id: 'updateTime',
           },
         ],
       };
     },
     methods: {
+      list,
       handleSeeFail() {
       },
       getData() {
