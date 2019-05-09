@@ -395,9 +395,10 @@
             this.tableDataHandled = records;
             this.total = total;
           })
-          .catch(() => {
+          .catch(e => {
             this.loading = false;
-            this.$message.error('查询失败');
+            console.log(e);
+            this.$message.error(e.message);
           });
       },
       handleSizeChange(pageSize) {

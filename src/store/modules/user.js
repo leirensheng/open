@@ -41,8 +41,10 @@ const user = {
     }, userInfo) {
       const username = userInfo.username.trim();
 
-      return login(username, userInfo.password).then(() => {
+      return login(username, userInfo.password).then(({ model: { menuList } }) => {
         commit('SAVE_LOGIN_STATE', true);
+        // 存放在localStorage，因为刷新页面不再请求login获取路由了
+        localStorage.setItem('menuList', JSON.stringify(menuList));
       });
     },
 
@@ -74,6 +76,7 @@ const user = {
           commit('SAVE_LOGIN_STATE', false);
           commit('SAVE_ROUTES', []);
           sessionStorage.clear();
+          localStorage.clear();
           resolve();
         }).catch(error => {
           reject(error);

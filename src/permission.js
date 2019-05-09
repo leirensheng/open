@@ -27,10 +27,11 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done();
      } else {
         try {
-          const [, { model: routes }] = await Promise.all([store.dispatch('getUserInfo'), getRoute()]);
-            const paths = routes.map(one => one.path);
+           await store.dispatch('getUserInfo');
+           const routes = JSON.parse(localStorage.getItem('menuList'));
+           const paths = routes.map(one => one.url);
             // 找出第一层的路由
-           const firstPath = [...new Set(routes.map(one => `/${one.path.split('/')[1]}`))];
+           const firstPath = [...new Set(paths.map(one => `/${one.split('/')[1]}`))];
 
            const targetRoutes = [...adminRoutes, ...userRoutes];
           // 前端的第一层路由
