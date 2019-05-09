@@ -15,10 +15,19 @@ export function update(data) {
     data,
   });
 }
-
-export function logout() {
+// 同步基础属性接口失败明细
+export function partsFailList(data) {
   return fetch({
-    url: '/user/logout',
+    url: '/open/supplier/outerSyncFail/parts/index',
     method: 'post',
+    data,
+  });
+}
+// 同步价格接口失败明细
+export function priceFailList(data) {
+  return fetch({
+    url: '/open/supplier/outerSyncFail/price/index',
+    method: 'post',
+    data,
   });
 }

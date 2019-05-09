@@ -5,12 +5,25 @@ const tagsView = {
   },
   mutations: {
     ADD_VISITED_VIEW: (state, view) => {
-      if (state.visitedViews.some(v => v.path === view.path)) return;
-      state.visitedViews.push(
-        Object.assign({}, view, {
-          title: view.meta.title || 'no-name',
-        }),
-      );
+      // 对接失败明细路由特殊处理，添加上供应商字段
+      const specialPath = '/business/fail';
+      if (view.path !== specialPath) {
+        if (state.visitedViews.some(v => v.path === view.path)) return;
+        state.visitedViews.push(
+          Object.assign({}, view, {
+            title: view.meta.title || 'no-name',
+          }),
+        );
+      } else if (state.visitedViews.map(one => one.path).includes(specialPath)) {
+        const idx = state.visitedViews.findIndex(one => one.path == specialPath);
+        state.visitedViews[idx].title = view.query.supplierName ? `对接商家:${view.query.supplierName}` : view.meta.title;
+        } else {
+          state.visitedViews.push(
+            Object.assign({}, view, {
+              title: view.query.supplierName ? `对接商家:${view.query.supplierName}` : view.meta.title,
+            }),
+          );
+        }
     },
     ADD_CACHED_VIEW: (state, view) => {
       if (state.cachedViews.includes(view.name)) return;

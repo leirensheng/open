@@ -98,19 +98,12 @@
             :min-width="one.width||100">
             <template slot-scope="scope">
               <!-- 一个td显示多行 -->
-              <div v-if="one.children">
+              <div v-if="one.type===Array">
                 <div
-                  v-for="(oneColumn,indexForColumn) of one.children"
-                  v-show="scope.row[oneColumn.id]!==undefined"
-                  :key="indexForColumn"
-                  class="oneColumnContainer">
-                  <div class="columnTitle">
-                    {{ oneColumn.name }}
-                  </div>
-                  <div
-                    class="columnContent">
-                    {{ oneColumn.formatter? (Array.isArray(scope.row[oneColumn.id])? scope.row[oneColumn.id].map(val=>oneColumn.formatter(val)).join(',') :oneColumn.formatter(scope.row[oneColumn.id])):scope.row[oneColumn.id] }}
-                  </div>
+                  v-for="(item,idx) in scope.row[one.id]"
+                  :key="idx"
+                  style="float:left">
+                  {{ `${idx+1}、${item}` }}
                 </div>
               </div>
               <!-- 一个td只显示一个字段 -->
@@ -200,11 +193,10 @@
         type: Boolean,
         default: true,
       },
-
-      // 查询参数的处理
-      initQueryParams: {
-        type: Function,
-        // default:
+      // 父组件传入的动态的查询参数
+      basicQueryForm: {
+        type: Object,
+        default: () => {},
       },
 
       getData: {
@@ -262,7 +254,12 @@
       },
     },
     watch: {
-
+      // basicQueryForm: {
+      //   deep: true,
+      //   handler() {
+      //     this.search();
+      //   },
+      // },
     },
     mounted() {
       this.initCount = this.columns.filter(one => one.source).length;
@@ -384,9 +381,9 @@
         clearPage && (this.pageNo = 1);
         const params = {
           pageSize: this.pageSize,
-          pageNo: this.pageNo,
+          pagination: this.pageNo,
         };
-        let finalParams = Object.assign(params, this.queryParams);
+        let finalParams = Object.assign(params, this.queryParams, this.basicQueryForm);
         if (this.handleQueryParams) {
           finalParams = this.handleQueryParams(params);
         }

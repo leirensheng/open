@@ -3,14 +3,14 @@ import { MessageBox, Message } from 'element-ui';
 import store from '@/store';
 
 // create an axios instance
-const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000, // request timeout
-});
+// const axios = axios.create({
+//   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+//   withCredentials: true, // send cookies when cross-domain requests
+//   timeout: 5000, // request timeout
+// });
 
 // request interceptor
-service.interceptors.request.use(
+axios.interceptors.request.use(
   config => config,
   error => {
     // do something with request error
@@ -20,7 +20,7 @@ service.interceptors.request.use(
 );
 
 // response interceptor
-service.interceptors.response.use(
+axios.interceptors.response.use(
   /**
    * If you want to get information such as headers or status
    * Please return  response => response
@@ -55,4 +55,4 @@ service.interceptors.response.use(
   },
 );
 
-export default service;
+export default axios;

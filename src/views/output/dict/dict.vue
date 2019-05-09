@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="top">
+    <div class="page-top">
       <span
         v-for="one in options"
         :key="one.id"
@@ -42,24 +42,6 @@
     },
   };
 </script>
-<style lang="scss" scoped>
-   .top{
-     .tag{
-       font-size: 12px;
-       line-height: 14px;
-       cursor: pointer;
-       width: 110px;
-       height: 31px;
-       background-color: rgb(239,241,244);
-       padding: 8px;
-       display: inline-block;
-       text-align: center;
-       margin: 12px;
-       color:#9C9EA4;
-       &.active{
-         color:#2E82FF;
-       }
-     }
+<style lang="scss">
 
-   }
 </style>

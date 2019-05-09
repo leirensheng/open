@@ -101,35 +101,10 @@
     },
     methods: {
       list,
-      handleSeeFail() {
+      handleSeeFail(rowData) {
+        const { supplierId, supplierName, systemId } = rowData;
+        this.$router.push({ name: 'Fail', query: { supplierName, supplierId, systemId } });
       },
-      getData() {
-        const data = {
-          data: [{
-            region: '环南',
-            supplierName: '张珊',
-            supplierId: '2892279',
-            secret: '728DJXO273BD2O0D',
-            status: 1,
-            lastModify: 'jonN',
-            remark: 'fdsfdsf',
-            lastModifyTime: '2018-06',
-          }, {
-            region: '花呗',
-            supplierName: '大幅度',
-            supplierId: '45464',
-            secret: 'fsddfsfsc',
-            status: 0,
-            remark: 'fff',
-            lastModify: 'q',
-            lastModifyTime: '2018-07',
-          }],
-          total: 2,
-          code: 0,
-        };
-        return Promise.resolve(data);
-      },
-
     },
   };
 </script>

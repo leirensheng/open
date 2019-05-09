@@ -108,7 +108,7 @@ export const userRoutes = [
        {
         path: 'fail',
         name: 'Fail',
-        component: () => import('@/views/user/fail.vue'),
+        component: () => import('@/views/user/fail/index.vue'),
         meta: {
           title: '对接失败明细',
         },
