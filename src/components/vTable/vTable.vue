@@ -254,12 +254,12 @@
       },
     },
     watch: {
-      // basicQueryForm: {
-      //   deep: true,
-      //   handler() {
-      //     this.search();
-      //   },
-      // },
+      basicQueryForm: {
+        deep: true,
+        handler() {
+          this.search();
+        },
+      },
     },
     mounted() {
       this.initCount = this.columns.filter(one => one.source).length;

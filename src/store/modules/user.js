@@ -12,6 +12,7 @@ const user = {
     name: '',
     avatar: '',
     routes: [],
+    isManager: false,
   },
 
   mutations: {
@@ -31,6 +32,9 @@ const user = {
 
     SAVE_ROUTES: (state, routes) => {
       state.routes = routes;
+    },
+    SET_IS_MANAGER: (state, isManager) => {
+      state.isManager = isManager;
     },
   },
 
@@ -54,9 +58,11 @@ const user = {
     }) {
       return new Promise((resolve, reject) => {
         getInfo().then(({ model }) => {
-          const { name, avatar } = model;
+          const { name, avatar, isManager } = model;
           commit('SET_NAME', name);
           commit('SET_AVATAR', avatar);
+          commit('SET_IS_MANAGER', isManager);
+
           resolve(name);
         }).catch(error => {
           reject(error);

@@ -14,19 +14,17 @@
   </div>
 </template>
 <script>
-//  todo:menuId
-  import vTable from '../../components/vTable/vTable.vue';
+  import vTable from '@/components/vTable/vTable.vue';
   import { list, hide, show } from '@/api/document';
 
   export default {
-    name: 'DocList',
     components: {
       vTable,
     },
     props: {
-      basicQueryForm: {
-        type: Object,
-        default: () => {},
+      menuId: {
+        type: [String, Number],
+        default: () => '',
       },
     },
     data() {
@@ -93,6 +91,16 @@
           },
         ],
       };
+    },
+    computed: {
+      basicQueryForm() {
+        return {
+          menuId: this.menuId,
+        };
+      },
+    },
+    watch: {
+
     },
     methods: {
       list,

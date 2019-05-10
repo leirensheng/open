@@ -6,5 +6,7 @@ const getters = {
   avatar: state => state.user.avatar,
   name: state => state.user.name,
   routes: state => state.user.routes,
+  isManager: state => state.user.isManager,
+
 };
 export default getters;

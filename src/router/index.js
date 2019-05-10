@@ -62,6 +62,10 @@ export const userRoutes = [
   {
     path: '/account',
     component: Layout,
+    alwaysShow: true,
+    meta: {
+      title: '账号',
+    },
     children: [
        {
         path: 'index',
@@ -77,6 +81,10 @@ export const userRoutes = [
   {
     path: '/test-params',
     component: Layout,
+    alwaysShow: true,
+    meta: {
+      title: '测试参数',
+    },
     children: [
       {
         path: 'index',
@@ -108,6 +116,7 @@ export const userRoutes = [
        {
         path: 'fail',
         name: 'Fail',
+        hidden: true,
         component: () => import('@/views/user/fail/index.vue'),
         meta: {
           title: '对接失败明细',
@@ -225,16 +234,17 @@ export const adminRoutes = [
     children: [
       {
         path: 'list',
-        name: 'DocList',
-        component: () => import('@/views/document/docList.vue'),
+        name: 'DocManage',
+        component: () => import('@/views/document/index.vue'),
         meta: {
           title: '接口文档管理',
         },
        },
        {
         path: 'edit',
+        hidden: true,
         name: 'DocEdit',
-        component: () => import('@/views/document/docEdit.vue'),
+        component: () => import('@/views/document/components/docEdit.vue'),
         meta: {
           title: '接口文档编辑',
         },

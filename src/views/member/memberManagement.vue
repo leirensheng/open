@@ -4,7 +4,7 @@
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
       :columns="columns"
-      :get-data="getData"
+      :get-data="list"
       :label-width="'120px'"
       @endUse="handleEndUse"
       @startUse="handleStartUse" />
@@ -12,6 +12,7 @@
 </template>
 <script>
   import vTable from '../../components/vTable/vTable.vue';
+  import { list, save, update } from '@/api/user.js';
 
   export default {
     name: 'Member',
@@ -26,17 +27,18 @@
             name: '编辑',
             editConfig: {
               title: '人员编辑',
+              handler: update,
             },
           },
           {
             name: '禁用',
             eventName: 'endUse',
-            show: item => item.status == 1,
+            show: item => item.state === 0,
           },
           {
             name: '启用',
             eventName: 'startUse',
-            show: item => item.status == 0,
+            show: item => item.state === -1,
           },
         ],
         topBtnsConfig: [
@@ -45,6 +47,7 @@
             btnType: 'success',
             addConfig: {
               title: '新增人员',
+              handler: save,
             },
           },
         ],
@@ -52,7 +55,7 @@
 
           {
             name: '账号',
-            id: 'account',
+            id: 'username',
             required: true,
             support: ['query', 'add', 'edit'],
           },
@@ -72,55 +75,35 @@
           },
           {
             name: '用户名',
-            id: 'userName',
+            id: 'name',
             required: true,
             support: ['query', 'add', 'edit'],
           },
           {
             name: '联系电话',
-            id: 'phone',
+            id: 'telephone',
             support: ['add', 'edit'],
           },
           {
             name: '状态',
-            id: 'status',
+            id: 'state',
             queryType: 'radio',
-            options: [{ name: '启用', id: 1 }, { name: '禁用', id: 0 }],
+            options: [{ name: '启用', id: 0 }, { name: '禁用', id: -1 }],
             support: ['add', 'edit'],
           },
           {
             name: '最近更新人',
-            id: 'lastModify',
+            id: 'updateUser',
           },
         ],
       };
     },
     methods: {
+      list,
+      save,
       handleStartUse() {},
       handleEndUse() {},
 
-
-      getData() {
-        const data = {
-          data: [{
-            phone: '1552137',
-            account: 'leirensheng',
-            userName: 'syk',
-            status: 1,
-            lastModify: 'jon',
-          }, {
-            phone: '4545',
-
-            account: 'dongx',
-            userName: 'her',
-            status: 0,
-            lastModify: 'sddd',
-          }],
-          total: 1,
-          code: 0,
-        };
-        return Promise.resolve(data);
-      },
 
     },
   };
