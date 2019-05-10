@@ -20,7 +20,7 @@ export function getInfo() {
 
 export function logout() {
   return fetch({
-    url: '/user/logout',
-    method: 'post',
+    url: '/open/supplier/logout',
+    method: 'get',
   });
 }
