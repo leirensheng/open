@@ -56,3 +56,19 @@ export function deleteMenu(params) {
     params,
   });
 }
+
+export function menuAndDoc(params) {
+  return fetch({
+    url: '/open/supplier/documentMenu/listAndDocument',
+    method: 'get',
+    params,
+  });
+}
+
+export function docView(params) {
+  return fetch({
+    url: '/open/supplier/document/view',
+    method: 'get',
+    params,
+  });
+}

@@ -30,6 +30,11 @@ export const basicRoutes = [
     component: () => import('@/views/home/home.vue'),
   },
   {
+    path: '/doc',
+    hidden: true,
+    component: () => import('@/views/document/docView.vue'),
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true,
@@ -235,7 +240,7 @@ export const adminRoutes = [
       {
         path: 'list',
         name: 'DocManage',
-        component: () => import('@/views/document/index.vue'),
+        component: () => import('@/views/document/docManage.vue'),
         meta: {
           title: '接口文档管理',
         },

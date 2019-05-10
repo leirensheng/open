@@ -75,7 +75,7 @@
       return {
         publicPath: process.env.BASE_URL,
         menus: [{ name: '首页', url: '/', active: () => this.$route.path === '/' },
-                { name: 'API文档', url: '/api', active: () => this.$route.path == '/api' },
+                { name: 'API文档', url: '/doc', active: () => this.$route.path == '/doc' },
                 { name: '用户中心', url: '/welcome/index', active: () => !['/', '/login', '/404'].includes(this.$route.path) },
                 { name: '管理中心', url: '/welcome/index', active: () => !['/', '/login', '/404'].includes(this.$route.path) }],
       };
