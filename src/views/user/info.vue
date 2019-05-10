@@ -74,7 +74,7 @@
             id: 'state',
             queryType: 'select',
             required: true,
-            options: [{ name: '启用', id: 1 }, { name: '禁用', id: 0 }],
+            options: [{ name: '启用', id: 1 }, { name: '禁用', id: -1 }],
             support: ['query'],
           },
           {

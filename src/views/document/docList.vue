@@ -5,7 +5,8 @@
       :top-btns-config="topBtnsConfig"
       :columns="columns"
       :label-width="'130px'"
-      :get-data="getData"
+      :get-data="list"
+      :basic-query-form="basicQueryForm"
       @gotoModify="gotoModify"
       @hide="handleHide"
       @move="handleMove"
@@ -13,13 +14,20 @@
   </div>
 </template>
 <script>
+//  todo:menuId
   import vTable from '../../components/vTable/vTable.vue';
+  import { list, hide, show } from '@/api/document';
 
   export default {
     name: 'DocList',
-
     components: {
       vTable,
+    },
+    props: {
+      basicQueryForm: {
+        type: Object,
+        default: () => {},
+      },
     },
     data() {
       return {
@@ -35,12 +43,12 @@
           {
             name: '设置为隐藏',
             eventName: 'hide',
-            show: item => item.status == 1,
+            show: item => item.state == 0,
           },
           {
             name: '设为可见',
             eventName: 'show',
-            show: item => item.status == 2,
+            show: item => item.state == -1,
           },
         ],
         topBtnsConfig: [
@@ -52,65 +60,56 @@
         ],
         columns: [
           {
+            name: '优先级',
+            id: 'id',
+            noShow: true,
+          },
+          {
             name: '文档名称',
-            id: 'docName',
+            id: 'name',
             support: ['query'],
           },
           {
             name: '优先级',
-            id: 'priority',
+            id: 'seq',
           },
 
           {
             name: '状态',
-            id: 'status',
+            id: 'state',
             queryType: 'select',
             required: true,
-            options: [{ name: '全部', id: 0 }, { name: '可见', id: 1 },
-                      { name: '隐藏', id: 2 }],
+            options: [{ name: '可见', id: 0 },
+                      { name: '隐藏', id: -1 }],
             support: ['query'],
           },
           {
             name: '最近更新人',
-            id: 'lastModify',
+            id: 'updateUserName',
           },
           {
             name: '最近更新时间',
-            id: 'lastModifyTime',
+            id: 'updateTime',
           },
         ],
       };
     },
     methods: {
-      handleHide() {},
+      list,
+      handleHide(rowData) {
+        hide({ id: rowData.id }).then(() => {
+          rowData.state = -1;
+        });
+      },
       handleMove() {},
-      handleShow() {},
-      gotoModify() {
-        this.$router.push('/editDoc');
+      handleShow(rowData) {
+        show({ id: rowData.id }).then(() => {
+          rowData.state = 0;
+        });
       },
-
-      getData() {
-        const data = {
-          data: [{
-                   docName: '添加SKU属性数据',
-                   priority: 23,
-                   status: 1,
-                   lastModify: 'jonN',
-                   lastModifyTime: '2018-06',
-                 },
-                 {
-                   docName: '更新库存、价格信息',
-                   priority: 1,
-                   status: 2,
-                   lastModify: 'df',
-                   lastModifyTime: '2018-05',
-                 }],
-          total: 2,
-          code: 0,
-        };
-        return Promise.resolve(data);
+      gotoModify({ id }) {
+        this.$router.push({ name: 'DocEdit', query: { id } });
       },
-
     },
   };
 </script>
