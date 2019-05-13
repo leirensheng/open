@@ -18,7 +18,7 @@ const user = {
   mutations: {
     SAVE_LOGIN_STATE: (state, hasLogin) => {
       state.hasLogin = hasLogin;
-      sessionStorage.setItem('hasLogin', 1);
+      sessionStorage.setItem('hasLogin', hasLogin);
     },
     SAVE_USER_ROUTE_STATE: (state, hasUserRoute) => {
       state.hasUserRoute = hasUserRoute;

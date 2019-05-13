@@ -1,5 +1,5 @@
 const getters = {
-  hasLogin: state => state.user.hasLogin || sessionStorage.getItem('hasLogin'),
+  hasLogin: state => state.user.hasLogin || sessionStorage.getItem('hasLogin') === 'true',
   sidebar: state => state.app.sidebar,
   hasUserRoute: state => state.user.hasUserRoute,
   device: state => state.app.device,

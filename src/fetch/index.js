@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { MessageBox, Message } from 'element-ui';
 import store from '@/store';
+import router from '@/router';
 
 // create an axios instance
 // const axios = axios.create({
@@ -34,15 +35,29 @@ axios.interceptors.response.use(
   response => {
     const res = response.data;
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 0) {
-      Message({
-        message: res.message || 'error',
-        type: 'error',
-        duration: 5 * 1000,
-      });
-      return Promise.reject(res.message || 'error');
-    }
-    return res;
+    return new Promise((resolve, reject) => {
+      if (res.code == 4) {
+        Message({
+          message: res.msg || 'error',
+          type: 'error',
+          duration: 5 * 1000,
+        });
+
+        store.dispatch('LogOut').then(() => {
+          router.push('/login');
+        });
+        reject(new Error('未登录'));
+      } else if (res.code !== 0) {
+        Message({
+          message: res.msg || 'error',
+          type: 'error',
+          duration: 5 * 1000,
+        });
+         reject(res.msg || 'error');
+      } else {
+        resolve(res);
+      }
+    });
   },
   error => {
     console.log(`err${error}`); // for debug
