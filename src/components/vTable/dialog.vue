@@ -126,6 +126,14 @@
       title: {
         type: String,
       },
+      basicAddForm: {
+        type: Object,
+        default: () => null,
+      },
+      basicEditForm: {
+        type: Object,
+        default: () => null,
+      },
     },
     data() {
       return {
@@ -178,15 +186,22 @@
         }
       },
       open() {
-        // this.form = {};
         this.initRule();
 
         if (this.inputs.mode === 'edit') {
           this.form = JSON.parse(JSON.stringify(this.inputs.form));
+          if (this.basicEditForm) {
+            this.form = { ...this.form, ...this.basicEditForm };
+          }
         } else {
           this.inputs.items.forEach(one => {
-            this.$set(this.form, one.id, '');
+            if (one.id) {
+              this.$set(this.form, one.id, '');
+            }
           });
+          if (this.basicAddForm) {
+            this.form = { ...this.form, ...this.basicAddForm };
+          }
         }
       },
       // 初始化表单规则

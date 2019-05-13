@@ -147,6 +147,8 @@
       <v-dialog
         ref="vDialog"
         :inputs="dataForDialog"
+        :basic-add-form="basicAddForm"
+        :basic-edit-form="basicEditForm"
         @dialogClose="dialogClose"
         @edit="saveDialogEdit"
         @add="saveDialogAdd">
@@ -197,6 +199,22 @@
       basicQueryForm: {
         type: Object,
         default: () => {},
+      },
+
+      basicAddForm: {
+        type: Object,
+        default: () => {},
+      },
+      basicEditForm: {
+        type: Object,
+        default: () => {},
+      },
+
+
+      // 表格查询之前处理
+      handleQueryParams: {
+        type: Function,
+        default: () => null,
       },
 
       getData: {
