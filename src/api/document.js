@@ -23,7 +23,7 @@ export function show(params) {
     params,
   });
 }
-
+// 文档目录列表
 export function docMenu(params) {
   return fetch({
     url: '/open/supplier/documentMenu/listAll',
@@ -32,7 +32,7 @@ export function docMenu(params) {
   });
 }
 
-
+// 保存目录
 export function saveMenu(data) {
   return fetch({
     url: '/open/supplier/documentMenu/save',
@@ -40,7 +40,7 @@ export function saveMenu(data) {
     data,
   });
 }
-
+// 接口目录顺序交换
 export function changeSeq(data) {
   return fetch({
     url: '/open/supplier/documentMenu/changeSeq',
@@ -48,7 +48,7 @@ export function changeSeq(data) {
     data,
   });
 }
-
+// 删除目录
 export function deleteMenu(params) {
   return fetch({
     url: '/open/supplier/documentMenu/delete',
@@ -56,7 +56,7 @@ export function deleteMenu(params) {
     params,
   });
 }
-
+// 文档和目录
 export function menuAndDoc(params) {
   return fetch({
     url: '/open/supplier/documentMenu/listAndDocument',
@@ -64,11 +64,19 @@ export function menuAndDoc(params) {
     params,
   });
 }
-
+// 文档详情
 export function docView(params) {
   return fetch({
     url: '/open/supplier/document/view',
     method: 'get',
     params,
+  });
+}
+// 文档编辑或者新增
+export function docSave(data) {
+  return fetch({
+    url: 'open/supplier/document/save',
+    method: 'post',
+    data,
   });
 }

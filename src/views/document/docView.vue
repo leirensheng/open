@@ -38,7 +38,7 @@
         active-text-color="#fff"
         :default-active="defaultActive"
         class="el-menu-vertical-demo"
-        @select="handleSelect"      >
+        @select="handleSelect" >
         <el-submenu
           v-for="one in tree"
           :key="one.id"

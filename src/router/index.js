@@ -251,7 +251,7 @@ export const adminRoutes = [
         name: 'DocEdit',
         component: () => import('@/views/document/components/docEdit.vue'),
         meta: {
-          title: '接口文档编辑',
+          title: '添加/编辑文档',
         },
        },
     ],
