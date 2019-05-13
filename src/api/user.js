@@ -23,3 +23,19 @@ export function update(data) {
     data,
   });
 }
+
+export function enable(data) {
+  return fetch({
+    url: '/open/supplier/user/active',
+     method: 'post',
+    data,
+  });
+}
+
+export function disable(data) {
+  return fetch({
+    url: '/open/supplier/user/stop',
+     method: 'post',
+    data,
+  });
+}

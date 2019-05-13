@@ -196,6 +196,12 @@
             this.$set(this.formRules, one.id, [
               { required: true, trigger: 'blur', message: one.tips },
             ]);
+            if (one.getValidator) {
+              this.formRules[one.id].push({
+                validator: one.getValidator(this),
+                trigger: 'blur',
+              });
+            }
           }
         });
       },

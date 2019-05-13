@@ -12,7 +12,10 @@
 </template>
 <script>
   import vTable from '../../components/vTable/vTable.vue';
-  import { list, save, update } from '@/api/user.js';
+  import {
+    list, save, update, enable, disable,
+  } from '@/api/user.js';
+
 
   export default {
     name: 'Member',
@@ -65,6 +68,13 @@
             isShow: false,
             required: true,
             support: ['add', 'edit'],
+            getValidator(ctx) {
+              return function (rule, value, callback) {
+                ctx.$refs.form.validateField('confirmpassword');
+                callback();
+              };
+            },
+
           },
           {
             name: '确认密码',
@@ -72,6 +82,17 @@
             isShow: false,
             required: true,
             support: ['add'],
+            getValidator(ctx) {
+              return function (rule, value, callback) {
+                if (value === '') {
+                  callback(new Error('请再次输入密码'));
+                } else if (value !== ctx.form.password) {
+                  callback(new Error('两次输入密码不一致!'));
+                } else {
+                  callback();
+                }
+              };
+            },
           },
           {
             name: '用户名',
@@ -87,9 +108,9 @@
           {
             name: '状态',
             id: 'state',
-            queryType: 'radio',
+            queryType: 'select',
             options: [{ name: '启用', id: 0 }, { name: '禁用', id: -1 }],
-            support: ['add', 'edit'],
+            support: ['add', 'edit', 'query'],
           },
           {
             name: '最近更新人',
@@ -101,10 +122,16 @@
     methods: {
       list,
       save,
-      handleStartUse() {},
-      handleEndUse() {},
-
-
+      handleStartUse(rowData) {
+        enable({ id: rowData.id }).then(() => {
+          rowData.state = 0;
+        });
+      },
+      handleEndUse(rowData) {
+        disable({ id: rowData.id }).then(() => {
+          rowData.state = -1;
+        });
+      },
     },
   };
 </script>

@@ -346,14 +346,15 @@
         const config = this.tableBtnsConfig.find(one => one.editConfig);
         if (config && config.editConfig.handler) {
           config.editConfig.handler(form).then(({ model }) => {
-            if (model && !Array.isArray(model)) {
+            if (model && !Array.isArray(model) && typeof model !== 'string') {
               this.$set(this.tableDataHandled, this.dataForDialog.index, model);
             } else {
               this.search();
             }
             this.dataForDialog.show = false;
+            this.$message.success('保存成功');
           }).catch(e => {
-            this.$message.error('编辑失败');
+            this.$message.error(e.message);
           });
         }
       },
@@ -364,8 +365,9 @@
           config.addConfig.handler(form).then(() => {
             this.dataForDialog.show = false;
             this.search();
+            this.$message.success('保存成功');
           }).catch(e => {
-            this.$message.error('新增失败');
+            this.$message.error(e.message);
           });
         }
       },
