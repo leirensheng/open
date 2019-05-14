@@ -1,11 +1,15 @@
 <template>
   <div>
     <v-table
+      ref="brandTable"
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
       :columns="columns"
       :label-width="'130px'"
-      :get-data="getData">
+      :basic-query-form="basicQueryForm"
+      :get-data="list"
+      @importDict="importDict"
+      @exportDict="exportDict">
       <div slot="tips">
         <div>
           填入对接系统车品牌名称，表示对接系统传入此名称时，系统识别为巴图鲁的“xxx”车品牌。不填则接口不会接入"xxx“品牌的数据
@@ -13,14 +17,35 @@
       </div>
       <div slot="template">
         <span>
-          导入为覆盖式更新， 请务必 <span>下载导入模板</span>
+          导入为覆盖式更新， 请务必 <span @click="downloadTemplate">
+            下载导入模板
+          </span>
         </span>
       </div>
     </v-table>
+    <!--
+    <input
+      id="File1"
+      ref="upload"
+      class="upload-input"
+      type="file"> -->
+
+
+    <form>
+      <input
+        ref="upload"
+        type="file"
+        class="upload-input"
+        name="filename"
+        @change="fileChange($event)"><br>
+    </form>
   </div>
 </template>
 <script>
   import vTable from '@/components/vTable/vTable.vue';
+  import {
+    list, update, download, upload,
+  } from '@/api/dataRel';
 
   export default {
     // name:''
@@ -34,6 +59,7 @@
             name: '编辑',
             editConfig: {
               title: '车品牌字典匹配关系',
+              handler: update,
             },
           },
         ],
@@ -60,7 +86,7 @@
           },
           {
             name: '巴图鲁车品牌ID',
-            id: 'id',
+            id: 'dataId',
             required: true,
             support: {
               edit: {
@@ -71,7 +97,7 @@
           },
           {
             name: '巴图鲁车品牌名称',
-            id: 'name',
+            id: 'dataValue',
             required: true,
             support: {
               query: {},
@@ -89,7 +115,7 @@
           },
           {
             name: '对接系统车品牌名称',
-            id: 'name2',
+            id: 'relValue',
             support: {
               edit: {
                 dialogName: '车品牌名称',
@@ -103,7 +129,7 @@
           },
           {
             name: '最近更新人',
-            id: 'lastModify',
+            id: 'updateUser',
           },
           {
             name: '最近更新时间',
@@ -112,41 +138,56 @@
         ],
       };
     },
-    methods: {
-
-      getData() {
-        const data = {
-          data: [{
-            id: '1552137',
-            name: '测试供应商1',
-            name2: 'ffff',
-
-            mainPart: 0,
-            webname: 'BTL_GZXX',
-            appkey: 'yishu434',
-            appPwd: 'fsdfjs',
-            status: 1,
-            lastModify: 'jon',
-            lastModifyTime: '2018-01',
-          }, {
-            id: '33',
-            name: '测试供应商2',
-            name2: 'dddd',
-
-            mainPart: 1,
-            webname: 'BTL_GZ5X',
-            appkey: 'SD',
-            appPwd: 'KILE',
-            status: 0,
-            lastModify: 'jonN',
-            lastModifyTime: '2018-06',
-          }],
-          total: 2,
-          code: 0,
+    computed: {
+      basicQueryForm() {
+        return {
+          type: 1,
+          dataValue: '巴图鲁车品牌名称',
+          systemId: this.$route.query.systemId,
         };
-        return Promise.resolve(data);
       },
+    },
+    methods: {
+      list,
+      downloadTemplate() {
+        download({ type: 1 });
+      },
+      importDict() {
+        this.$refs.upload.click();
 
+        // upload(this.basicQueryForm).then(() => {
+        //   this.search();
+        // });
+      },
+      fileChange(e) {
+        e.preventDefault();
+
+        console.log(e);
+        const file = e.target.files[0];
+        console.log(file);
+        const formData = new FormData();
+        // 向 formData 对象中添加文件
+        formData.append('file', file);
+
+        console.log(formData);
+
+
+        upload({ ...formData, ...this.basicQueryForm }).then(() => this.search());
+      },
+      exportDict() {
+        download(this.basicQueryForm);
+      },
+      search() {
+        this.$refs.brandTable.search();
+      },
     },
   };
 </script>
+<style lang="scss" scoped>
+.upload-input{
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+</style>

@@ -214,7 +214,6 @@
       // 表格查询之前处理
       handleQueryParams: {
         type: Function,
-        default: () => null,
       },
 
       getData: {
@@ -404,6 +403,7 @@
           pagination: this.pageNo,
         };
         let finalParams = Object.assign(params, this.queryParams, this.basicQueryForm);
+        console.log(this.handleQueryParams);
         if (this.handleQueryParams) {
           finalParams = this.handleQueryParams(params);
         }

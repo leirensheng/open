@@ -1,11 +1,15 @@
 <template>
   <div>
     <v-table
+      ref="productionTable"
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
       :columns="columns"
       :label-width="'130px'"
-      :get-data="getData">
+      :basic-query-form="basicQueryForm"
+      :get-data="list"
+      @importDict="importDict"
+      @exportDict="exportDict">
       <div slot="tips">
         <div>
           填入对接系统配件产地名称，表示对接系统传入此名称时，系统识别为巴图鲁的“xxx”配件产地。不填则接口不会接入"xxx“产地的数据
@@ -14,7 +18,9 @@
 
       <div slot="template">
         <span>
-          导入为覆盖式更新， 请务必 <span>下载导入模板</span>
+          导入为覆盖式更新， 请务必 <span @click="downloadTemplate">
+            下载导入模板
+          </span>
         </span>
       </div>
     </v-table>
@@ -22,6 +28,9 @@
 </template>
 <script>
   import vTable from '@/components/vTable/vTable.vue';
+  import {
+    list, update, download, upload,
+  } from '@/api/dataRel';
 
   export default {
     components: {
@@ -34,6 +43,7 @@
             name: '编辑',
             editConfig: {
               title: '配件产地字典匹配关系',
+              handler: update,
             },
           },
         ],
@@ -60,7 +70,7 @@
           },
           {
             name: '巴图鲁配件产地名称',
-            id: 'id',
+            id: 'dataValue',
             required: true,
             support: {
               edit: {
@@ -77,7 +87,7 @@
           },
           {
             name: '对接系统配件产地名称',
-            id: 'name2',
+            id: 'relValue',
             support: {
               edit: {
                 dialogName: '配件产地名称',
@@ -91,7 +101,7 @@
           },
           {
             name: '最近更新人',
-            id: 'lastModify',
+            id: 'updateUser',
           },
           {
             name: '最近更新时间',
@@ -100,42 +110,31 @@
         ],
       };
     },
-    methods: {
-
-
-      getData() {
-        const data = {
-          data: [{
-            id: '1552137',
-            name: '测试供应商1',
-            name2: 'ffff',
-
-            mainPart: 0,
-            webname: 'BTL_GZXX',
-            appkey: 'yishu434',
-            appPwd: 'fsdfjs',
-            status: 1,
-            lastModify: 'jon',
-            lastModifyTime: '2018-01',
-          }, {
-            id: '33',
-            name: '测试供应商2',
-            name2: 'dddd',
-
-            mainPart: 1,
-            webname: 'BTL_GZ5X',
-            appkey: 'SD',
-            appPwd: 'KILE',
-            status: 0,
-            lastModify: 'jonN',
-            lastModifyTime: '2018-06',
-          }],
-          total: 2,
-          code: 0,
+    computed: {
+      basicQueryForm() {
+        return {
+          type: 3,
+          dataValue: '巴图鲁配件产地名称',
+          systemId: this.$route.query.systemId,
         };
-        return Promise.resolve(data);
       },
-
+    },
+    methods: {
+      downloadTemplate() {
+        download({ type: 3 });
+      },
+      list,
+      exportDict() {
+        download(this.basicQueryForm);
+      },
+      importDict() {
+        upload(this.basicQueryForm).then(() => {
+          this.search();
+        });
+      },
+      search() {
+        this.$refs.productionTable.search();
+      },
     },
   };
 </script>

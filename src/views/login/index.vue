@@ -66,14 +66,10 @@
     name: 'Login',
     data() {
       const validateUsername = (rule, value, callback) => {
-        if (!validUsername(value)) {
-          callback(new Error('请输入正确的用户名'));
-        } else {
-          callback();
-        }
+        callback();
       };
       const validatePass = (rule, value, callback) => {
-        if (value.length < 5) {
+        if (value.length < 0) {
           callback(new Error('密码不能小于5位'));
         } else {
           callback();

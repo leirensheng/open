@@ -124,6 +124,7 @@ export const userRoutes = [
         hidden: true,
         component: () => import('@/views/user/fail/index.vue'),
         meta: {
+          noCache: true,
           title: '对接失败明细',
         },
        },
@@ -205,25 +206,31 @@ export const adminRoutes = [
        {
         path: 'dict',
         name: 'Dict',
+        hidden: true,
         component: () => import('@/views/output/dict/dict.vue'),
         meta: {
+          noCache: true,
           title: '字典维护',
         },
        },
        {
         path: 'user',
         name: 'User',
+        hidden: true,
         component: () => import('@/views/output/user.vue'),
         meta: {
+          noCache: true,
           title: '对接用户管理',
         },
        },
        {
         path: 'business',
         name: 'Business',
+        hidden: true,
         component: () => import('@/views/output/business.vue'),
         meta: {
           title: '对接商家管理',
+          noCache: true,
         },
        },
     ],
@@ -251,6 +258,7 @@ export const adminRoutes = [
         name: 'DocEdit',
         component: () => import('@/views/document/components/docEdit.vue'),
         meta: {
+          noCache: true,
           title: '添加/编辑文档',
         },
        },

@@ -47,6 +47,7 @@ module.exports = {
       // },
       '/': {
         target: 'https://www.easy-mock.com/mock/5cd0e27cd61cdd209810969d/example',
+        // target: 'http://172.16.19.152:8080',
         // target: 'http://192.168.16.100:9004',
         // target: 'http://192.168.16.180:9003',
         // target: 'http://192.168.16.180:9003',

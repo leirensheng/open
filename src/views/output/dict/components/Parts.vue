@@ -1,11 +1,15 @@
 <template>
   <div>
     <v-table
+      ref="partsTable"
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
       :columns="columns"
+      :basic-query-form="basicQueryForm"
       :label-width="'130px'"
-      :get-data="getData">
+      :get-data="list"
+      @importDict="importDict"
+      @exportDict="exportDict">
       <div slot="tips">
         <div>
           填入对接系统配件品牌名称，表示对接系统传入此名称时，系统识别为巴图鲁的“xxx”配件品牌。不填则接口不会接入"xxx“品牌的数据
@@ -13,7 +17,9 @@
       </div>
       <div slot="template">
         <span>
-          导入为覆盖式更新， 请务必 <span>下载导入模板</span>
+          导入为覆盖式更新， 请务必 <span @click="downloadTemplate">
+            下载导入模板
+          </span>
         </span>
       </div>
     </v-table>
@@ -21,6 +27,9 @@
 </template>
 <script>
   import vTable from '@/components/vTable/vTable.vue';
+  import {
+    list, update, download, upload,
+  } from '@/api/dataRel';
 
   export default {
     components: {
@@ -33,6 +42,7 @@
             name: '编辑',
             editConfig: {
               title: '配件品牌字典匹配关系',
+              handler: update,
             },
           },
         ],
@@ -60,7 +70,7 @@
           },
           {
             name: '巴图鲁配件品牌ID',
-            id: 'id',
+            id: 'dataId',
             required: true,
             support: {
               edit: {
@@ -71,7 +81,7 @@
           },
           {
             name: '巴图鲁配件品牌名称',
-            id: 'name',
+            id: 'dataValue',
             required: true,
             support: {
               query: {
@@ -89,7 +99,7 @@
           },
           {
             name: '对接系统配件品牌名称',
-            id: 'name2',
+            id: 'relValue',
             support: {
               edit: {
                 dialogName: '配件品牌名称',
@@ -104,7 +114,7 @@
           },
           {
             name: '最近更新人',
-            id: 'lastModify',
+            id: 'updateUser',
           },
           {
             name: '最近更新时间',
@@ -113,40 +123,30 @@
         ],
       };
     },
-    methods: {
-
-
-      getData() {
-        const data = {
-          data: [{
-            id: '1552137',
-            name: '测试供应商1',
-            name2: 'ffff',
-
-            mainPart: 0,
-            webname: 'BTL_GZXX',
-            appkey: 'yishu434',
-            appPwd: 'fsdfjs',
-            status: 1,
-            lastModify: 'jon',
-            lastModifyTime: '2018-01',
-          }, {
-            id: '33',
-            name: '测试供应商2',
-            name2: 'dddd',
-
-            mainPart: 1,
-            webname: 'BTL_GZ5X',
-            appkey: 'SD',
-            appPwd: 'KILE',
-            status: 0,
-            lastModify: 'jonN',
-            lastModifyTime: '2018-06',
-          }],
-          total: 2,
-          code: 0,
+    computed: {
+      basicQueryForm() {
+        return {
+          type: 2,
+          dataValue: '巴图鲁配件品牌名称',
+          systemId: this.$route.query.systemId,
         };
-        return Promise.resolve(data);
+      },
+    },
+    methods: {
+      list,
+      downloadTemplate() {
+        download({ type: 2 });
+      },
+      importDict() {
+        upload(this.basicQueryForm).then(() => {
+          this.search();
+        });
+      },
+      exportDict() {
+        download(this.basicQueryForm);
+      },
+      search() {
+        this.$refs.partsTable.search();
       },
 
     },

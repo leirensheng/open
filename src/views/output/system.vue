@@ -5,14 +5,15 @@
       :top-btns-config="topBtnsConfig"
       :columns="columns"
       :label-width="'130px'"
-      :get-data="getData"
-      @gotoDict="gotoPage('/brand')"
-      @gotoBusiness="gotoPage('/business')"
-      @gotoUser="gotoPage('/user')" />
+      :get-data="list"
+      @gotoDict="(rowData)=>{gotoPage(rowData, 'Dict')}"
+      @gotoBusiness="gotoPage('Business')"
+      @gotoUser="gotoPage('User')" />
   </div>
 </template>
 <script>
   import vTable from '@/components/vTable/vTable.vue';
+  import { list, update, add } from '@/api/system';
 
   export default {
     name: 'System',
@@ -26,6 +27,7 @@
             name: '编辑',
             editConfig: {
               title: '编辑对接系统',
+              handler: update,
             },
           },
           {
@@ -47,13 +49,14 @@
             name: '添加',
             addConfig: {
               title: '添加对接系统',
+              handler: add,
             },
           },
         ],
         columns: [
           {
             name: '对接系统',
-            id: 'system',
+            id: 'name',
             required: true,
             support: ['query', 'add', 'edit'],
           },
@@ -63,7 +66,7 @@
           },
           {
             name: '接入状态',
-            id: 'status',
+            id: 'state',
             queryType: 'select',
             options: [{ name: '启用', id: 1 }, { name: '禁用', id: 0 }],
             support: { query: {}, edit: { type: 'radio' }, add: { type: 'radio' } },
@@ -80,29 +83,11 @@
       };
     },
     methods: {
-      gotoPage(route) {
-        this.$router.push(route);
+      list,
+      gotoPage({ id }, name) {
+        this.$router.push({ name, query: { systemId: id } });
       },
-      getData() {
-        const data = {
-          data: [{
-            system: '思锐ERP',
-            count: 23,
-            status: 1,
-            lastModify: 'jon',
-            lastModifyTime: '2018-01',
-          }, {
-            system: '民车',
-            count: 3,
-            status: 0,
-            lastModify: 'jon',
-            lastModifyTime: '2018-01',
-          }],
-          total: 2,
-          code: 0,
-        };
-        return Promise.resolve(data);
-      },
+
 
     },
   };

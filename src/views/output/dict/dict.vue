@@ -5,15 +5,21 @@
         v-for="one in options"
         :key="one.id"
         class="tag"
-        :class="one.id===curPage?'active':''"
+        :class="one.id===curType?'active':''"
         @click="()=>gotoPage(one)">
         {{ one.name }}
       </span>
     </div>
     <div class="content">
-      <Brand v-show="curPage=='brand'" />
-      <Parts v-show="curPage=='parts'" />
-      <Production v-show="curPage=='production'" />
+      <Brand
+        v-show="curType=='brand'"
+        ref="brand" />
+      <Parts
+        v-show="curType=='parts'"
+        ref="parts" />
+      <Production
+        v-show="curType=='production'"
+        ref="production" />
     </div>
   </div>
 </template>
@@ -31,15 +37,29 @@
     },
     data() {
       return {
-        curPage: 'brand',
+        systemId: '',
+        curType: 'brand',
         options: [{ name: '车品牌字典', id: 'brand' }, { name: '配件品牌字典', id: 'parts' }, { name: '配件产地字典', id: 'production' }],
       };
     },
+
+    watch: {
+      curType(val) {
+        this.$refs[val].search();
+      },
+      // '$route'(){
+      //   console.log('b')
+      // }
+    },
+    created() {
+      console.log(1);
+    },
     methods: {
       gotoPage(one) {
-        this.curPage = one.id;
+        this.curType = one.id;
       },
     },
+
   };
 </script>
 <style lang="scss">
