@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="systemName">
+      {{
+        supplierName }}
+    </div>
     <div class="page-top">
       <span
         v-for="one in options"

@@ -11,12 +11,16 @@
       :get-data="list"
       :basic-add-form="basicAddForm"
       :basic-query-form="basicQueryForm"
+      @endUse="handleEndUse"
+      @startUse="handleStartUse"
       @addIdChange="handleIdChange" />
   </div>
 </template>
 <script>
   import vTable from '@/components/vTable/vTable.vue';
-  import { list, update, add } from '@/api/systemSupplier';
+  import {
+    list, update, add, disable, enable,
+  } from '@/api/systemSupplier';
   import { findSupplerById } from '@/api/base';
 
   export default {
@@ -32,7 +36,6 @@
           长远: 2,
           用心: 3,
         },
-        systemName: '',
         tableBtnsConfig: [
           {
             name: '编辑',
@@ -139,11 +142,11 @@
           source: this.nameSourceMaps[this.systemName],
         };
       },
+      systemName() {
+        return this.$route.query.systemName;
+      },
     },
-    created() {
-      console.log(1);
-      this.systemName = this.$route.query.systemName;
-    },
+
     methods: {
       //  供应商id变化处理
       handleIdChange({
@@ -154,7 +157,18 @@
         });
       },
       list,
-
+      handleStartUse(rowData) {
+        enable({ id: rowData.id }).then(() => {
+          rowData.state = 0;
+          this.$message.success('保存成功');
+        });
+      },
+      handleEndUse(rowData) {
+        disable({ id: rowData.id }).then(() => {
+          rowData.state = -1;
+          this.$message.success('保存成功');
+        });
+      },
     },
   };
 </script>

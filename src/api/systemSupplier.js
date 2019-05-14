@@ -42,3 +42,21 @@ export function priceFailList(data) {
     data,
   });
 }
+
+// 禁用
+export function disable(data) {
+  return fetch({
+    url: '/open/supplier/systemSupplier/stop',
+    method: 'post',
+    data,
+  });
+}
+
+// 启用
+export function enable(data) {
+  return fetch({
+    url: '/open/supplier/systemSupplier/active',
+    method: 'post',
+    data,
+  });
+}

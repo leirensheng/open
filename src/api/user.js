@@ -8,7 +8,7 @@ export function list(data) {
   });
 }
 
-export function save(data) {
+export function add(data) {
   return fetch({
     url: '/open/supplier/user/save',
      method: 'post',

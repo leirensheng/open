@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="systemName">
+      {{ systemName }}
+    </div>
     <div class="page-top">
       <span
         v-for="one in options"
@@ -42,6 +45,11 @@
         options: [{ name: '车品牌字典', id: 'brand' }, { name: '配件品牌字典', id: 'parts' }, { name: '配件产地字典', id: 'production' }],
       };
     },
+    computed: {
+      systemName() {
+        return this.$route.query.systemName;
+      },
+    },
 
     watch: {
       curType(val) {
@@ -51,9 +59,7 @@
       //   console.log('b')
       // }
     },
-    created() {
-      console.log(1);
-    },
+
     methods: {
       gotoPage(one) {
         this.curType = one.id;

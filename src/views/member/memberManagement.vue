@@ -13,8 +13,8 @@
 <script>
   import vTable from '../../components/vTable/vTable.vue';
   import {
-    list, save, update, enable, disable,
-  } from '@/api/user.js';
+    list, add, update, enable, disable,
+  } from '@/api/user';
 
 
   export default {
@@ -50,7 +50,7 @@
             btnType: 'success',
             addConfig: {
               title: '新增人员',
-              handler: save,
+              handler: add,
             },
           },
         ],
@@ -121,15 +121,16 @@
     },
     methods: {
       list,
-      save,
       handleStartUse(rowData) {
         enable({ id: rowData.id }).then(() => {
           rowData.state = 0;
+          this.$message.success('保存成功');
         });
       },
       handleEndUse(rowData) {
         disable({ id: rowData.id }).then(() => {
           rowData.state = -1;
+          this.$message.success('保存成功');
         });
       },
     },
