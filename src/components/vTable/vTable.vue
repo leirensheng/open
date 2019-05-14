@@ -283,13 +283,12 @@
       this.columns.forEach(column => {
         // 初始化options
         if (column.source) {
-          column.source().then(data => {
+          column.source().then(({ model }) => {
             if (!column.formatter) {
               this.generateFormatter(column);
             }
             this.currentCount++;
-
-            this.$set(column, 'options', data); //
+            this.$set(column, 'options', model); //
           }).catch(e => {
             this.$message.error(`获取${column.name}选项失败!`);
             console.log(e);
@@ -403,7 +402,6 @@
           pagination: this.pageNo,
         };
         let finalParams = Object.assign(params, this.queryParams, this.basicQueryForm);
-        console.log(this.handleQueryParams);
         if (this.handleQueryParams) {
           finalParams = this.handleQueryParams(params);
         }

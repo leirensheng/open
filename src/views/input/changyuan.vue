@@ -6,15 +6,20 @@
       :top-btns-config="topBtnsConfig"
       :columns="columns"
       :label-width="'130px'"
-      :get-data="getData"
+      :get-data="list"
+      :basic-add-form="basicQueryForm"
+      :basic-query-form="basicQueryForm"
       @endUse="handleEndUse"
-      @beforeDialogOpen="handleDialogOpen"
       @addIdChange="handleIdChange"
       @startUse="handleStartUse" />
   </div>
 </template>
 <script>
   import vTable from '../../components/vTable/vTable.vue';
+  import {
+    list, add, update, enable, disable,
+  } from '@/api/externalInterface';
+  import { findCorporationList, findSupplerById } from '@/api/base';
 
   export default {
     name: 'Changyuan',
@@ -23,22 +28,27 @@
     },
     data() {
       return {
+        basicQueryForm: {
+          source: 2,
+        },
         tableBtnsConfig: [
           {
             name: '编辑',
             editConfig: {
               title: '对接商家管理-编辑',
+              handler: update,
+
             },
           },
           {
             name: '禁用',
             eventName: 'endUse',
-            show: item => item.status == 1,
+            show: item => item.state == 0,
           },
           {
             name: '启用',
             eventName: 'startUse',
-            show: item => item.status == 0,
+            show: item => item.state == -1,
           },
         ],
         topBtnsConfig: [
@@ -47,6 +57,8 @@
             btnType: 'success',
             addConfig: {
               title: '添加对接商家',
+              handler: add,
+
             },
           },
         ],
@@ -58,7 +70,7 @@
           },
           {
             name: '供应商ID',
-            id: 'id',
+            id: 'supplierId',
             required: true,
             support: {
               query: {},
@@ -66,7 +78,6 @@
                 eventName: 'addIdChange',
               },
               edit: {
-                eventName: 'editIdChange',
                 disabled: true,
               },
             },
@@ -74,7 +85,7 @@
           },
           {
             name: '供应商名称',
-            id: 'name',
+            id: 'supplierName',
             required: true,
             support: {
               query: {},
@@ -89,16 +100,20 @@
           },
           {
             name: '接入主体',
-            id: 'mainPart',
+            id: 'corporationId',
             required: true,
             queryType: 'select',
-            options: [{ name: '广州', id: 0 }, { name: '杭州', id: 1 }, { name: '上海', id: 2 }],
+            sourceFormat: {
+              label: 'corporationName',
+              value: 'id',
+            },
+            source: findCorporationList,
             support: {
               add: {
-                disabled: form => !form.name,
+                disabled: form => !form.supplierName,
               },
               edit: {
-                disabled: form => !form.name,
+                disabled: true,
               },
             },
           },
@@ -109,7 +124,7 @@
           },
           {
             name: '长远AppKey',
-            id: 'appkey',
+            id: 'Appkey',
             required: true,
             support: {
               add: {
@@ -122,88 +137,62 @@
           },
           {
             name: '接入状态',
-            id: 'status',
+            id: 'state',
             queryType: 'radio',
-            options: [{ name: '启用', id: 1 }, { name: '禁用', id: 0 }],
+            options: [{ name: '启用', id: 0 }, { name: '禁用', id: -1 }],
 
           },
           {
             name: '最近更新人',
-            id: 'lastModify',
+            id: 'updateUser',
           },
           {
             name: '最近更新时间',
-            id: 'lastModifyTime',
+            id: 'updateTime',
           },
         ],
       };
     },
     methods: {
-      handleStartUse() {},
-      handleEndUse() {},
-      handleDialogOpen(dataForDialog) {
-        const config = dataForDialog.items.find(one => one.id == 'mainPart');
-        this.$set(config.options.find(one => one.id == 2), 'noShow', true);
+      list,
+      handleStartUse(rowData) {
+        enable({ id: rowData.id }).then(() => {
+          this.$message.success('保存成功');
+
+          rowData.state = 0;
+        });
       },
-      //  供应商名称变化处理
-      handleNameChange(val, id, form, allConfig) {
-        if (val) {
-          const target = allConfig.find(one => one.id == 'mainPart');
-          if (target) {
-            this.$set(target.options.find(one => one.id == 2), 'noShow', true);
-            // 这里保证dialog的操作不会有任何副作用
-            this.$refs.table.$on('dialogClose', () => {
-              this.$set(target.options.find(one => one.id == 2), 'noShow', false);
-            });
-          }
-        }
+      handleEndUse(rowData) {
+        disable({ id: rowData.id }).then(() => {
+          this.$message.success('保存成功');
+
+          rowData.state = -1;
+        });
       },
+
+
       //  供应商id变化处理
       handleIdChange({
-        form, allConfig,
+        form,
       }) {
-        form.name = '焊接连接';
-        this.handleNameChange(form.name, 'name', form, allConfig);
+        form.supplierName = '';
+        findSupplerById({ id: form.supplierId }).then(({ model }) => {
+          form.supplierName = model.orgName;
+        });
+
+        findCorporationList({ supplierId: form.supplierId }).then(({ model }) => {
+          const target = this.columns.find(one => one.id == 'corporationId');
+          const showIds = model.map(one => one.id);
+          target.options.forEach(one => {
+            if (showIds.includes(one.id)) {
+              this.$set(one, 'noShow', false);
+            } else {
+              this.$set(one, 'noShow', true);
+            }
+          });
+        });
       },
-      getData() {
-        const data = {
-          data: [{
-                   id: '1552137',
-                   name: '测试供应商1',
-                   mainPart: 0,
-                   webname: 'BTL_GZXX',
-                   appkey: 'yishu434',
-                   appPwd: 'fsdfjs',
-                   status: 1,
-                   lastModify: 'jon',
-                   lastModifyTime: '2018-01',
-                 }, {
-                   id: '33',
-                   name: '测试供应商2',
-                   mainPart: 1,
-                   webname: 'BTL_GZ5X',
-                   appkey: 'SD',
-                   appPwd: 'KILE',
-                   status: 0,
-                   lastModify: 'jonN',
-                   lastModifyTime: '2018-06',
-                 },
-                 {
-                   id: '33',
-                   name: '测试供应商2',
-                   mainPart: 2,
-                   webname: 'BTL_GZ5X',
-                   appkey: 'SD',
-                   appPwd: 'KILE',
-                   status: 0,
-                   lastModify: 'jonN',
-                   lastModifyTime: '2018-06',
-                 }],
-          total: 2,
-          code: 0,
-        };
-        return Promise.resolve(data);
-      },
+
 
     },
   };

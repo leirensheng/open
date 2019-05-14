@@ -11,63 +11,79 @@
           :label="one.name+'：'">
           <el-input
             v-if="one.type!=='text'"
-            v-model="form[one.id]" />
+            v-model="form[one.id]"
+            style="width:230px" />
           <span v-else>
             {{ form[one.id] }}
           </span>
         </el-form-item>
+        <el-form-item>
+          <el-button @click="save">
+            保存
+          </el-button>
+        </el-form-item>
       </el-form>
-      <el-button @click="save">
-        保存
-      </el-button>
     </div>
   </div>
 </template>
 <script>
+  import { updateUserPassword } from '@/api/login';
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'Account',
 
     data() {
       return {
-        form: {},
         items: [{
           name: '所属系统',
-          id: 'system',
+          id: 'systemName',
           type: 'text',
         }, {
           name: '账号',
-          id: 'account',
-          type: 'text',
-        }, {
-          name: '用户名',
           id: 'userName',
           type: 'text',
         }, {
+          name: '用户名',
+          id: 'name',
+          type: 'text',
+        }, {
           name: '原密码',
-          id: 'oldPassword',
+          id: 'password',
         }, {
           name: '新密码',
-          id: 'newPassword',
+          id: 'updatePassword',
         }, {
           name: '确认新密码',
           id: 'confirmPassword',
         }],
       };
     },
+    computed: {
+      ...mapGetters([
+        'systemName', 'userName', 'name', 'id',
+      ]),
+      form() {
+        return {
+          id: this.id,
+          systemName: this.systemName,
+          name: this.name,
+          userName: this.userName,
+          password: '',
+          updatePassword: '',
+          confirmPassword: '',
+        };
+      },
+    },
     mounted() {
-      this.items.forEach(one => {
-        this.$set(this.form, one.id, '');
-      });
-
-      this.form = {
-        system: '思锐',
-        account: 'zhagn',
-        userName: '张珊',
-      };
+      // this.items.forEach(one => {
+      //   this.$set(this.form, one.id, '');
+      // });
     },
     methods: {
-      save() {},
+      save() {
+        updateUserPassword(this.form);
+      },
     },
   };
 </script>

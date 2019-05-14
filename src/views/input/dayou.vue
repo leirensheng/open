@@ -9,10 +9,7 @@
       :get-data="list"
       :basic-query-form="basicQueryForm"
       :basic-add-form="basicQueryForm"
-      :basic-edit-form="basicQueryForm"
-
       @endUse="handleEndUse"
-      @beforeDialogOpen="handleDialogOpen"
       @addIdChange="handleIdChange"
       @startUse="handleStartUse" />
   </div>
@@ -22,6 +19,7 @@
   import {
     list, add, update, enable, disable,
   } from '@/api/externalInterface';
+  import { findCorporationList, findSupplerById } from '@/api/base';
 
   export default {
     name: 'Dayou',
@@ -44,12 +42,12 @@
           {
             name: '禁用',
             eventName: 'endUse',
-            show: item => item.state == 1,
+            show: item => item.state == 0,
           },
           {
             name: '启用',
             eventName: 'startUse',
-            show: item => item.state == 0,
+            show: item => item.state == -1,
           },
         ],
         topBtnsConfig: [
@@ -78,11 +76,10 @@
                 eventName: 'addIdChange',
               },
               edit: {
-                eventName: 'editIdChange',
                 disabled: true,
               },
-            },
 
+            },
           },
           {
             name: '供应商名称',
@@ -104,13 +101,17 @@
             id: 'corporationId',
             required: true,
             queryType: 'select',
-            options: [{ name: '广州', id: 0 }, { name: '杭州', id: 1 }, { name: '上海', id: 2 }],
+            sourceFormat: {
+              label: 'corporationName',
+              value: 'id',
+            },
+            source: findCorporationList,
             support: {
               add: {
                 disabled: form => !form.supplierName,
               },
               edit: {
-                disabled: form => !form.supplierName,
+                disabled: true,
               },
             },
           },
@@ -162,16 +163,16 @@
             name: '接入状态',
             id: 'state',
             queryType: 'radio',
-            options: [{ name: '启用', id: 1 }, { name: '禁用', id: 0 }],
+            options: [{ name: '启用', id: 0 }, { name: '禁用', id: -1 }],
 
           },
           {
             name: '最近更新人',
-            id: 'lastModify',
+            id: 'updateUser',
           },
           {
             name: '最近更新时间',
-            id: 'lastModifyTime',
+            id: 'updateTime',
           },
         ],
       };
@@ -181,36 +182,37 @@
       handleStartUse(rowData) {
         enable({ id: rowData.id }).then(() => {
           rowData.state = 0;
+          this.$message.success('保存成功');
         });
       },
       handleEndUse(rowData) {
         disable({ id: rowData.id }).then(() => {
           rowData.state = -1;
+          this.$message.success('保存成功');
         });
       },
-      handleDialogOpen(dataForDialog) {
-        const config = dataForDialog.items.find(one => one.id == 'corporationId');
-        this.$set(config.options.find(one => one.id == 2), 'noShow', true);
-      },
-      //  供应商名称变化处理
-      handleNameChange(val, id, form, allConfig) {
-        if (val) {
-          const target = allConfig.find(one => one.id == 'corporationId');
-          if (target) {
-            this.$set(target.options.find(one => one.id == 2), 'noShow', true);
-            // 这里保证dialog的操作不会有任何副作用
-            this.$refs.table.$on('dialogClose', () => {
-              this.$set(target.options.find(one => one.id == 2), 'noShow', false);
-            });
-          }
-        }
-      },
+
+
       //  供应商id变化处理
       handleIdChange({
-        form, allConfig,
+        form,
       }) {
-        form.supplierName = '焊接连接';
-        this.handleNameChange(form.supplierName, 'supplierName', form, allConfig);
+        form.supplierName = '';
+        findSupplerById({ id: form.supplierId }).then(({ model }) => {
+          form.supplierName = model.orgName;
+        });
+
+        findCorporationList({ supplierId: form.supplierId }).then(({ model }) => {
+          const target = this.columns.find(one => one.id == 'corporationId');
+          const showIds = model.map(one => one.id);
+          target.options.forEach(one => {
+            if (showIds.includes(one.id)) {
+              this.$set(one, 'noShow', false);
+            } else {
+              this.$set(one, 'noShow', true);
+            }
+          });
+        });
       },
 
 

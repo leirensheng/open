@@ -7,6 +7,9 @@ const getters = {
   name: state => state.user.name,
   routes: state => state.user.routes,
   isManager: state => state.user.isManager,
+  systemName: state => state.user.systemName,
+  userName: state => state.user.userName,
+  id: state => state.user.id,
 
 };
 export default getters;

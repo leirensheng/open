@@ -87,6 +87,7 @@ export const userRoutes = [
     path: '/test-params',
     component: Layout,
     alwaysShow: true,
+    hidden: true,
     meta: {
       title: '测试参数',
     },

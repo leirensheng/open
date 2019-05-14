@@ -13,6 +13,9 @@ const user = {
     avatar: '',
     routes: [],
     isManager: false,
+    systemName: '',
+    userName: '',
+    id: '',
   },
 
   mutations: {
@@ -36,6 +39,16 @@ const user = {
     SET_IS_MANAGER: (state, isManager) => {
       state.isManager = isManager;
     },
+
+    SET_SYSTEMNAME: (state, name) => {
+      state.systemName = name;
+    },
+    SET_USER_NAME: (state, name) => {
+      state.userName = name;
+    },
+    SET_ID: (state, id) => {
+      state.id = id;
+    },
   },
 
   actions: {
@@ -58,10 +71,18 @@ const user = {
     }) {
       return new Promise((resolve, reject) => {
         getInfo().then(({ model }) => {
-          const { name, avatar, isManager } = model;
+          const {
+          systemName, name, username, avatar, isManager, id,
+         } = model;
           commit('SET_NAME', name);
+          commit('SET_ID', id);
+
+          commit('SET_USER_NAME', username);
+
+
           commit('SET_AVATAR', avatar);
           commit('SET_IS_MANAGER', isManager);
+          commit('SET_SYSTEMNAME', systemName);
 
           resolve(name);
         }).catch(error => {
@@ -78,9 +99,14 @@ const user = {
       return new Promise((resolve, reject) => {
         logout().then(() => {
           commit('SET_NAME', '');
+          commit('SET_ID', '');
+
           commit('SET_AVATAR', '');
+          commit('SET_USER_NAME', '');
+
           commit('SAVE_LOGIN_STATE', false);
           commit('SAVE_ROUTES', []);
+          commit('SET_SYSTEMNAME', '');
           sessionStorage.clear();
           localStorage.clear();
           resolve();

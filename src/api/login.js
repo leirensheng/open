@@ -24,3 +24,10 @@ export function logout() {
     method: 'get',
   });
 }
+export function updateUserPassword(data) {
+  return fetch({
+    url: '/open/supplier/user/updateUserPassword',
+    method: 'post',
+    data,
+  });
+}
