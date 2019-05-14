@@ -15,6 +15,17 @@ export function update(data) {
     data,
   });
 }
+
+// 新增
+
+export function add(data) {
+  return fetch({
+    url: '/open/supplier/systemSupplier/save',
+    method: 'post',
+    data,
+  });
+}
+
 // 同步基础属性接口失败明细
 export function partsFailList(data) {
   return fetch({

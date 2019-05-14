@@ -217,7 +217,7 @@ export const adminRoutes = [
         path: 'user',
         name: 'User',
         hidden: true,
-        component: () => import('@/views/output/user.vue'),
+        component: () => import('@/views/output/user/user.vue'),
         meta: {
           noCache: true,
           title: '对接用户管理',
@@ -227,7 +227,7 @@ export const adminRoutes = [
         path: 'business',
         name: 'Business',
         hidden: true,
-        component: () => import('@/views/output/business.vue'),
+        component: () => import('@/views/output/business/business.vue'),
         meta: {
           title: '对接商家管理',
           noCache: true,

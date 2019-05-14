@@ -10,7 +10,7 @@
 </template>
 <script>
   import vTable from '@/components/vTable/vTable.vue';
-  import { priceFailList } from '@/api/systemSupplier.js';
+  import { priceFailList } from '@/api/systemSupplier';
 
   export default {
     components: {

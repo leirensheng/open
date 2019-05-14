@@ -10,7 +10,7 @@
 </template>
 <script>
   import vTable from '@/components/vTable/vTable.vue';
-  import { list, update } from '@/api/systemSupplier.js';
+  import { list, update } from '@/api/systemSupplier';
 
   export default {
     name: 'Info',
@@ -74,7 +74,7 @@
             id: 'state',
             queryType: 'select',
             required: true,
-            options: [{ name: '启用', id: 1 }, { name: '禁用', id: -1 }],
+            options: [{ name: '启用', id: 0 }, { name: '禁用', id: -1 }],
             support: ['query'],
           },
           {

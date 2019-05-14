@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-  import vTable from '../../components/vTable/vTable.vue';
+  import vTable from '@/components/vTable/vTable.vue';
   import {
     list, add, update, enable, disable,
   } from '@/api/externalInterface';

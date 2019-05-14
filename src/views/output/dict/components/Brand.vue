@@ -133,7 +133,7 @@
           },
           {
             name: '最近更新时间',
-            id: 'lastModifyTime',
+            id: 'updateTime',
           },
         ],
       };

@@ -7,8 +7,8 @@
       :label-width="'130px'"
       :get-data="list"
       @gotoDict="(rowData)=>{gotoPage(rowData, 'Dict')}"
-      @gotoBusiness="gotoPage('Business')"
-      @gotoUser="gotoPage('User')" />
+      @gotoBusiness="(rowData)=>gotoPage(rowData,'Business')"
+      @gotoUser="(rowData)=>gotoPage(rowData,'User')" />
   </div>
 </template>
 <script>
@@ -62,7 +62,7 @@
           },
           {
             name: '对接商家数',
-            id: 'count',
+            id: 'supplierCount',
           },
           {
             name: '接入状态',
@@ -84,8 +84,8 @@
     },
     methods: {
       list,
-      gotoPage({ id }, name) {
-        this.$router.push({ name, query: { systemId: id } });
+      gotoPage({ id, name }, routeName) {
+        this.$router.push({ name: routeName, query: { systemId: id, systemName: name } });
       },
 
 
