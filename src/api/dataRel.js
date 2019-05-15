@@ -2,7 +2,7 @@ import fetch from '@/fetch';
 
 export function list(data) {
   return fetch({
-    url: '/open/supplier/dataRel',
+    url: '/open/supplier/dataRel/index',
     method: 'post',
     data,
   });

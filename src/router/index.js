@@ -77,6 +77,7 @@ export const userRoutes = [
         name: 'Account',
         component: () => import('@/views/user/account.vue'),
         meta: {
+          noCache: true,
           title: '账号信息',
           icon: 'a',
         },

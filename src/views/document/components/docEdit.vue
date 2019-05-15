@@ -1,15 +1,21 @@
 <template>
   <div class="components-container">
     <el-form
+      ref="form"
       :inline="true"
       :model="form"
+      :rules="rules"
       class="form">
-      <el-form-item label="文档名称">
+      <el-form-item
+        label="文档名称"
+        prop="name">
         <el-input
           v-model="form.name"
           placeholder="请输入内容" />
       </el-form-item>
-      <el-form-item label="所属目录">
+      <el-form-item
+        label="所属目录"
+        prop="documentMenuId">
         <el-select
           v-model="form.documentMenuId"
           placeholder="请选择">
@@ -20,8 +26,13 @@
             :value="one.id" />
         </el-select>
       </el-form-item>
-      <el-form-item label="优先级">
-        <el-select
+      <el-form-item
+        label="优先级"
+        prop="seq">
+        <el-input
+          v-model="form.seq"
+          placeholder="请输入优先级" />
+        <!-- <el-select
           v-model="form.seq"
           :disabled="curSeqs.length<=0"
           placeholder="请选择">
@@ -30,9 +41,11 @@
             :key="one.id"
             :label="one.seq"
             :value="one.seq" />
-        </el-select>
+        </el-select> -->
       </el-form-item>
-      <el-form-item label="可见状态">
+      <el-form-item
+        label="可见状态"
+        prop="state">
         <el-radio-group v-model="form.state">
           <el-radio :label="0">
             可见
@@ -72,6 +85,13 @@
     components: { Tinymce },
     data() {
       return {
+        rules: {
+          name: [{ required: true, trigger: 'blur' }],
+          seq: [{ required: true, trigger: 'blur' }],
+          documentMenuId: [{ required: true, trigger: 'change' }],
+          state: [{ required: true, trigger: 'blur' }],
+
+        },
         loading: false,
         form: {
           documentMenuId: '',
@@ -120,8 +140,13 @@
         });
       },
       save() {
-        docSave(this.form).then(() => {
-          this.$message.success('保存成功');
+        this.$refs.form.validate(valid => {
+          if (valid) {
+            docSave(this.form).then(() => {
+              this.$message.success('保存成功');
+              this.$router.push('/document/list');
+            });
+          }
         });
       },
       getOptions() {

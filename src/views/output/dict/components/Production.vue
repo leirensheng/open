@@ -64,6 +64,10 @@
         ],
         columns: [
           {
+            name: 'id',
+            isShow: false,
+          },
+          {
             name: '巴图鲁',
             queryType: 'title',
             support: ['edit'],

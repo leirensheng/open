@@ -55,7 +55,7 @@
         };
       },
     },
-    activated() {
+    mounted() {
       this.search();
     },
     methods: {

@@ -1,7 +1,11 @@
 <template>
   <div class="upload-container">
-    <el-button :style="{background:color,borderColor:color}"
-icon="el-icon-upload" size="mini" type="primary" @click=" dialogVisible=true">
+    <el-button
+      :style="{background:color,borderColor:color}"
+      icon="el-icon-upload"
+      size="mini"
+      type="primary"
+      @click=" dialogVisible=true">
       upload
     </el-button>
     <el-dialog :visible.sync="dialogVisible">
@@ -15,16 +19,18 @@ icon="el-icon-upload" size="mini" type="primary" @click=" dialogVisible=true">
         class="editor-slide-upload"
         action="https://httpbin.org/post"
         list-type="picture-card">
-        <el-button size="small"
-type="primary">
+        <el-button
+          size="small"
+          type="primary">
           Click upload
         </el-button>
       </el-upload>
       <el-button @click="dialogVisible = false">
         Cancel
       </el-button>
-      <el-button type="primary"
-@click="handleSubmit">
+      <el-button
+        type="primary"
+        @click="handleSubmit">
         Confirm
       </el-button>
     </el-dialog>
@@ -94,8 +100,8 @@ type="primary">
           img.src = _URL.createObjectURL(file);
           img.onload = function () {
             _self.listObj[fileName] = {
- hasSuccess: false, uid: file.uid, width: this.width, height: this.height 
-};
+              hasSuccess: false, uid: file.uid, width: this.width, height: this.height,
+            };
           };
           resolve(true);
         });

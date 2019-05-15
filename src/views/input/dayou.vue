@@ -100,21 +100,40 @@
             name: '接入主体',
             id: 'corporationId',
             required: true,
-            queryType: 'select',
-            sourceFormat: {
-              label: 'corporationName',
-              value: 'id',
-            },
-            source: findCorporationList,
+            // queryType: 'select',
+            // sourceFormat: {
+            //   label: 'corporationName',
+            //   value: 'id',
+            // },
+            // source: findCorporationList,
             support: {
               add: {
-                disabled: form => !form.supplierName,
+                // disabled: form => !form.supplierName,
               },
               edit: {
-                disabled: true,
+                // disabled: true,
               },
             },
           },
+          // {
+          //   name: '接入主体',
+          //   id: 'corporationId',
+          //   required: true,
+          //   queryType: 'select',
+          //   sourceFormat: {
+          //     label: 'corporationName',
+          //     value: 'id',
+          //   },
+          //   source: findCorporationList,
+          //   support: {
+          //     add: {
+          //       disabled: form => !form.supplierName,
+          //     },
+          //     edit: {
+          //       disabled: true,
+          //     },
+          //   },
+          // },
           {
             name: '大有信息',
             queryType: 'title',
@@ -198,7 +217,7 @@
         form,
       }) {
         form.supplierName = '';
-        findSupplerById({ id: form.supplierId }).then(({ model }) => {
+        findSupplerById({ supplierId: form.supplierId }).then(({ model }) => {
           form.supplierName = model.orgName;
         });
 

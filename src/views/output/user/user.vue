@@ -11,6 +11,7 @@
       :basic-add-form="basicAddForm"
       :basic-query-form="basicQueryForm"
       :get-data="list"
+      @beforeDialogOpen="beforeDialogOpen"
       @startUse="startUse"
       @endUse="endUse" />
   </div>
@@ -29,16 +30,12 @@
     },
     data() {
       return {
-        nameSourceMaps: {
-          大有: 1,
-          长远: 2,
-          用心: 3,
-        },
+
         tableBtnsConfig: [
           {
             name: '编辑',
             editConfig: {
-              title: '车品牌字典匹配关系',
+              title: '对接用户-编辑',
               handler: update,
             },
 
@@ -81,27 +78,42 @@
           {
             name: '密码',
             id: 'password',
-            noShow: true,
+            isShow: false,
             required: true,
-            support: ['add'],
+            support: ['add', 'edit'],
           },
           {
             name: '供应商ID',
             id: 'supplierId',
           },
           {
-            name: '测试秘钥',
-            id: 'secret',
+            name: 'appId',
+            id: 'appKey',
           },
-
+          {
+            name: 'secretKey',
+            id: 'appSecret',
+          },
+          {
+            name: 'supplierKey',
+            id: 'supplierKey',
+          },
           {
             name: '状态',
             id: 'state',
-            queryType: 'radio',
+            queryType: 'select',
             required: true,
 
             options: [{ name: '启用', id: 0 }, { name: '禁用', id: -1 }],
-            support: ['add', 'query', 'edit'],
+            support: {
+              add: {
+                type: 'radio',
+              },
+              edit: {
+                type: 'radio',
+              },
+              query: {},
+            },
           },
           {
             name: '最近更新人',
@@ -122,7 +134,7 @@
       },
       basicQueryForm() {
         return {
-          source: this.nameSourceMaps[this.systemName],
+          systemId: this.$route.query.systemId,
         };
       },
       systemName() {
@@ -131,6 +143,12 @@
     },
     methods: {
       list,
+      // 因为后端返回的密码是md5加密后的，所以前端不应该显示，防止只修改其他字段导致密码丢失
+      beforeDialogOpen({ form }, mode) {
+        if (mode === 'edit') {
+          form.password = '';
+        }
+      },
       startUse(rowData) {
         enable({ id: rowData.id }).then(() => {
           rowData.state = 0;

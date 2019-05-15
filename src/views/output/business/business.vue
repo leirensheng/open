@@ -21,7 +21,7 @@
   import {
     list, update, add, disable, enable,
   } from '@/api/systemSupplier';
-  import { findSupplerById } from '@/api/base';
+  import { findSupplerById, findRegion } from '@/api/base';
 
   export default {
     name: 'Business',
@@ -31,16 +31,12 @@
     },
     data() {
       return {
-        nameSourceMaps: {
-          大有: 1,
-          长远: 2,
-          用心: 3,
-        },
+
         tableBtnsConfig: [
           {
             name: '编辑',
             editConfig: {
-              title: '车品牌字典匹配关系',
+              title: '对接商家管理-编辑',
               handler: update,
             },
           },
@@ -60,7 +56,7 @@
             name: '添加',
             btnType: 'success',
             addConfig: {
-              title: '添加外部用户',
+              title: '添加对接供应商',
               handler: add,
             },
           },
@@ -101,13 +97,24 @@
             id: 'areaId',
             queryType: 'select',
             support: ['add', 'edit'],
-            options: [{ name: '华南', id: 4 }, { name: '花呗', id: 2 }],
+            source: findRegion,
+            sourceFormat: {
+              value: 'regionID',
+              label: 'regionName',
+            },
           },
           {
-            name: '正式对接秘钥',
+            name: 'appId',
+            id: 'appKey',
+          },
+          {
+            name: 'secretKey',
             id: 'appSecret',
           },
-
+          {
+            name: 'supplierKey',
+            id: 'supplierKey',
+          },
           {
             name: '状态',
             id: 'state',
@@ -116,7 +123,6 @@
             options: [{ name: '启用', id: 0 }, { name: '禁用', id: -1 }],
             support: {
               add: { type: 'radio' },
-              edit: { type: 'radio' },
               query: {},
             },
           },
@@ -139,7 +145,7 @@
       },
       basicQueryForm() {
         return {
-          source: this.nameSourceMaps[this.systemName],
+          systemId: this.$route.query.systemId,
         };
       },
       systemName() {
@@ -152,7 +158,8 @@
       handleIdChange({
         form,
       }) {
-        findSupplerById({ id: form.supplierId }).then(({ model: { orgName } }) => {
+        form.supplierName = '';
+        findSupplerById({ supplierId: form.supplierId }).then(({ model: { orgName } }) => {
           form.supplierName = orgName;
         });
       },

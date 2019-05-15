@@ -6,7 +6,7 @@
  */
 
 export function formatDate(timeStamp, pattern) {
-  const str = typeof pattern === 'string' ? pattern : 'yyyy-MM-dd';
+  const str = typeof pattern === 'string' ? pattern : 'yyyy-MM-dd hh:mm:ss';
   const date = new Date(timeStamp);
   const fixLen = function (num, len) {
     let r = `${num}`;

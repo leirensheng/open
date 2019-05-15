@@ -190,6 +190,14 @@
 
         if (this.inputs.mode === 'edit') {
           this.form = JSON.parse(JSON.stringify(this.inputs.form));
+
+          const notPostArr = ['updateUser', 'updateTime', 'password', 'updatePassword', 'createTime'];
+          notPostArr.forEach(one => {
+            if (!this.showItems.map(column => column.id).includes(one)) {
+              delete this.form[one];
+            }
+          });
+
           if (this.basicEditForm) {
             this.form = { ...this.form, ...this.basicEditForm };
           }

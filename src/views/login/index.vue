@@ -66,11 +66,15 @@
     name: 'Login',
     data() {
       const validateUsername = (rule, value, callback) => {
-        callback();
+        if (value.length <= 0) {
+          callback(new Error('请输入用户名'));
+        } else {
+          callback();
+        }
       };
       const validatePass = (rule, value, callback) => {
-        if (value.length < 0) {
-          callback(new Error('密码不能小于5位'));
+        if (value.length <= 0) {
+          callback(new Error('请输入密码'));
         } else {
           callback();
         }
@@ -121,9 +125,7 @@
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false;
             this.$router.push({ path: this.redirect || '/' });
-          }).catch(e => {
-            console.log(e);
-            this.$message.error(e.message);
+          }).catch(() => {
             this.loading = false;
           });
           if (this.remPwd) {

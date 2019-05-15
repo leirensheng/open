@@ -65,8 +65,16 @@
             id: 'area',
           },
           {
-            name: '正式对接秘钥',
+            name: 'appId',
+            id: 'appKey',
+          },
+          {
+            name: 'secretKey',
             id: 'appSecret',
+          },
+          {
+            name: 'supplierKey',
+            id: 'supplierKey',
           },
 
           {

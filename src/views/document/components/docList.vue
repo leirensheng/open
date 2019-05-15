@@ -9,7 +9,6 @@
       :basic-query-form="basicQueryForm"
       @gotoModify="gotoModify"
       @hide="handleHide"
-      @move="handleMove"
       @show="handleShow" />
   </div>
 </template>
@@ -30,10 +29,7 @@
     data() {
       return {
         tableBtnsConfig: [
-          {
-            name: '移动',
-            eventName: 'move',
-          },
+
           {
             name: '编辑',
             eventName: 'gotoModify',
@@ -107,12 +103,13 @@
       handleHide(rowData) {
         hide({ id: rowData.id }).then(() => {
           rowData.state = -1;
+          this.$message.success('保存成功');
         });
       },
-      handleMove() {},
       handleShow(rowData) {
         show({ id: rowData.id }).then(() => {
           rowData.state = 0;
+          this.$message.success('保存成功');
         });
       },
       gotoModify({ id }) {

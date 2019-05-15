@@ -38,7 +38,7 @@
         active-text-color="#fff"
         :default-active="defaultActive"
         class="el-menu-vertical-demo"
-        @select="handleSelect" >
+        @select="handleSelect">
         <el-submenu
           v-for="one in tree"
           :key="one.id"
@@ -70,7 +70,7 @@
 </template>
 <script>
   import menuImg from '@/assets/images/menu.png';
-  import { menuAndDoc, docView } from '@/api/document';
+  import { search, docView } from '@/api/document';
 
   export default {
     data() {
@@ -120,7 +120,7 @@
         this.loading = true;
         this.docData.title = '';
         this.docData.content = '';
-        menuAndDoc({ name: this.keyword }).then(({ model }) => {
+        search({ name: this.keyword }).then(({ model }) => {
           this.tree = model;
           if (this.tree.length) {
             const docList = this.tree[0].documentDTOList;

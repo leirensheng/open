@@ -10,6 +10,7 @@ const getters = {
   systemName: state => state.user.systemName,
   userName: state => state.user.userName,
   id: state => state.user.id,
+  password: state => state.user.password,
 
 };
 export default getters;

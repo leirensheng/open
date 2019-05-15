@@ -80,3 +80,11 @@ export function docSave(data) {
     data,
   });
 }
+// 文档搜索
+export function search(params) {
+  return fetch({
+    url: 'open/supplier/document/listAllAndMenu',
+    method: 'get',
+    params,
+  });
+}

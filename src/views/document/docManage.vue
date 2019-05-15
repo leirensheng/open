@@ -23,6 +23,16 @@
         curId: '',
       };
     },
+    // 为了编辑完成后，跳回来的时候重新刷新
+    activated() {
+      if (this.curId) {
+        const temp = this.curId;
+        this.curId = '';
+        this.$nextTick(() => {
+          this.curId = temp;
+        });
+      }
+    },
     methods: {
       handleChange(id) {
         this.curId = id;

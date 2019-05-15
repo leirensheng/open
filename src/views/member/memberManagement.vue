@@ -7,6 +7,8 @@
       :get-data="list"
       :label-width="'120px'"
       @endUse="handleEndUse"
+      @beforeDialogOpen="beforeDialogOpen"
+
       @startUse="handleStartUse" />
   </div>
 </template>
@@ -68,12 +70,18 @@
             isShow: false,
             required: true,
             support: ['add', 'edit'],
-            getValidator(ctx) {
-              return function (rule, value, callback) {
-                ctx.$refs.form.validateField('confirmpassword');
-                callback();
-              };
-            },
+            // getValidator(ctx) {
+            //   return function (rule, value, callback) {
+            //     if (value === '') {
+            //       callback(new Error('请输入密码'));
+            //     } else {
+            //       if (ctx.form.confirmPassword !== '') {
+            //         ctx.$refs.form.validateField('confirmPassword');
+            //       }
+            //       callback();
+            //     }
+            //   };
+            // },
 
           },
           {
@@ -110,7 +118,16 @@
             id: 'state',
             queryType: 'select',
             options: [{ name: '启用', id: 0 }, { name: '禁用', id: -1 }],
-            support: ['add', 'edit', 'query'],
+            required: true,
+            support: {
+              add: {
+                type: 'radio',
+              },
+              edit: {
+                type: 'radio',
+              },
+              query: {},
+            },
           },
           {
             name: '最近更新人',
@@ -121,6 +138,12 @@
     },
     methods: {
       list,
+      // 因为后端返回的密码是md5加密后的，所以前端不应该显示，防止只修改其他字段导致密码丢失
+      beforeDialogOpen({ form }, mode) {
+        if (mode === 'edit') {
+          form.password = '';
+        }
+      },
       handleStartUse(rowData) {
         enable({ id: rowData.id }).then(() => {
           rowData.state = 0;

@@ -176,7 +176,7 @@
         form,
       }) {
         form.supplierName = '';
-        findSupplerById({ id: form.supplierId }).then(({ model }) => {
+        findSupplerById({ supplierId: form.supplierId }).then(({ model }) => {
           form.supplierName = model.orgName;
         });
 

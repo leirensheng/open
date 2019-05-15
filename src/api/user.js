@@ -24,18 +24,18 @@ export function update(data) {
   });
 }
 
-export function enable(data) {
+export function enable(params) {
   return fetch({
     url: '/open/supplier/user/active',
-     method: 'post',
-    data,
+     method: 'get',
+    params,
   });
 }
 
-export function disable(data) {
+export function disable(params) {
   return fetch({
     url: '/open/supplier/user/stop',
-     method: 'post',
-    data,
+     method: 'get',
+     params,
   });
 }

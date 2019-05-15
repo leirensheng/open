@@ -12,7 +12,16 @@ import router from '@/router';
 
 // request interceptor
 axios.interceptors.request.use(
-  config => config,
+  config => {
+     if (config.data) {
+       Object.keys(config.data).forEach(key => {
+          if (config.data[key] === '') {
+            delete config.data[key];
+          }
+       });
+     }
+     return config;
+  },
   error => {
     // do something with request error
     console.log(error); // for debug

@@ -165,6 +165,7 @@
 <script>
   import Pagination from '../Pagination/Pagination.vue';
   import VDialog from './dialog.vue';
+  import { formatDate } from '@/utils/time-util';
 
   export default {
     components: { Pagination, VDialog },
@@ -293,7 +294,7 @@
             this.$message.error(`获取${column.name}选项失败!`);
             console.log(e);
           });
-        } else if (column.options && column.options.length) {
+        } else if ((column.options && column.options.length) || ['updateTime'].includes(column.id)) {
           if (!column.formatter) {
             this.generateFormatter(column);
           }
@@ -362,7 +363,8 @@
         const config = this.tableBtnsConfig.find(one => one.editConfig);
         if (config && config.editConfig.handler) {
           config.editConfig.handler(form).then(({ model }) => {
-            if (model && !Array.isArray(model) && typeof model !== 'string') {
+            if (model && Object.prototype.toString.call(model) == '[object Object]'
+            ) {
               this.$set(this.tableDataHandled, this.dataForDialog.index, model);
             } else {
               this.search();
@@ -436,6 +438,10 @@
       },
       generateFormatter(column) {
         column.formatter = val => {
+          // 统一格式化时间
+          if (column.id === 'updateTime') {
+            return formatDate(val);
+          }
           const target = column.options.find(one => one[column.sourceFormat
             ? column.sourceFormat.value
             : 'id'] == val);

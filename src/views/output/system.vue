@@ -47,6 +47,7 @@
         topBtnsConfig: [
           {
             name: '添加',
+            btnType: 'success',
             addConfig: {
               title: '添加对接系统',
               handler: add,
@@ -67,17 +68,18 @@
           {
             name: '接入状态',
             id: 'state',
+            required: true,
             queryType: 'select',
-            options: [{ name: '启用', id: 1 }, { name: '禁用', id: 0 }],
+            options: [{ name: '启用', id: 0 }, { name: '禁用', id: -1 }],
             support: { query: {}, edit: { type: 'radio' }, add: { type: 'radio' } },
           },
           {
             name: '最近更新人',
-            id: 'lastModify',
+            id: 'updateUser',
           },
           {
             name: '最近更新时间',
-            id: 'lastModifyTime',
+            id: 'updateTime',
           },
         ],
       };

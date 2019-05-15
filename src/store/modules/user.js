@@ -3,7 +3,7 @@ import {
   logout,
   getInfo,
 } from '@/api/login';
-
+import router from '@/router';
 
 const user = {
   state: {
@@ -16,6 +16,7 @@ const user = {
     systemName: '',
     userName: '',
     id: '',
+    password: '',
   },
 
   mutations: {
@@ -49,6 +50,9 @@ const user = {
     SET_ID: (state, id) => {
       state.id = id;
     },
+    SET_PASSWORD: (state, password) => {
+      state.password = password;
+    },
   },
 
   actions: {
@@ -72,12 +76,13 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(({ model }) => {
           const {
-          systemName, name, username, avatar, isManager, id,
+          systemName, name, username, avatar, password, isManager, id,
          } = model;
           commit('SET_NAME', name);
           commit('SET_ID', id);
 
           commit('SET_USER_NAME', username);
+          commit('SET_PASSWORD', password);
 
 
           commit('SET_AVATAR', avatar);
@@ -98,17 +103,10 @@ const user = {
     }) {
       return new Promise((resolve, reject) => {
         logout().then(() => {
-          commit('SET_NAME', '');
-          commit('SET_ID', '');
-
-          commit('SET_AVATAR', '');
-          commit('SET_USER_NAME', '');
-
-          commit('SAVE_LOGIN_STATE', false);
-          commit('SAVE_ROUTES', []);
-          commit('SET_SYSTEMNAME', '');
           sessionStorage.clear();
           localStorage.clear();
+          location.reload();
+          // rout
           resolve();
         }).catch(error => {
           reject(error);
