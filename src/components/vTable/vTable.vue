@@ -412,6 +412,7 @@
           .then(res => {
             this.loading = false;
             const { model: { records, total } } = res;
+            this.$emit('beforeAssignToTable', records);
             this.tableDataHandled = records;
             this.total = total;
           })

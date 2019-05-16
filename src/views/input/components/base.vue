@@ -9,6 +9,7 @@
       :get-data="list"
       :basic-query-form="basicQueryForm"
       :basic-add-form="basicQueryForm"
+      @beforeAssignToTable="beforeAssignToTable"
       @endUse="handleEndUse"
       @addCorporationChange="addCorporationChange"
       @addIdChange="handleIdChange"
@@ -74,6 +75,16 @@
     },
     methods: {
       list,
+
+      // 从后端获取表格数据后进行处理
+      beforeAssignToTable(data) {
+        data.forEach(obj => {
+          obj.externalInterfaceExtendDTOs.forEach(one => {
+            obj[one.name] = one.value;
+          });
+        });
+      },
+
       handleStartUse(rowData) {
         enable({ id: rowData.id }).then(() => {
           rowData.state = 0;
@@ -112,10 +123,12 @@
         });
 
         findCorporationList({ supplierId: form.supplierId }).then(({ model }) => {
-          target.options = model.map(one => ({
-            name: one.corporationName,
-            id: one.id,
-          }));
+          if (model) {
+            target.options = model.map(one => ({
+              name: one.corporationName,
+              id: one.id,
+            }));
+          }
         });
       },
     },
