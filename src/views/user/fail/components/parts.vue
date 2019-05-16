@@ -33,7 +33,7 @@
           },
           {
             name: '配件名称',
-            id: 'partName',
+            id: 'partsName',
           },
           {
             name: '原厂编码',

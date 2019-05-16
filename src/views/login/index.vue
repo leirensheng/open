@@ -40,11 +40,7 @@
             class="iconfont icon-yanjing icon" />
         </span>
       </el-form-item>
-      <div class="rember">
-        <el-checkbox v-model="remPwd">
-          用户名保存7天
-        </el-checkbox>
-      </div>
+
       <el-form-item>
         <el-button
           :loading="loading"
@@ -59,8 +55,7 @@
 </template>
 
 <script>
-  import { validUsername } from '@/utils/validate';
-  import Cookies from 'js-cookie';
+
 
   export default {
     name: 'Login',
@@ -91,7 +86,6 @@
         loading: false,
         pwdType: 'password',
         redirect: undefined,
-        remPwd: false,
       };
     },
     watch: {
@@ -111,12 +105,6 @@
         }
       },
 
-      // 设置cookie
-      setCookie(cName, value, expiremDay) {
-        Cookies.set('kefuCookie', `${cName}$${value}`, {
-          expires: expiremDay,
-        });
-      },
 
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
@@ -128,11 +116,6 @@
           }).catch(() => {
             this.loading = false;
           });
-          if (this.remPwd) {
-            this.setCookie(this.loginForm.account, this.loginForm.password, 7); // 保存cookie7天
-          } else {
-            Cookies.remove('kefuCookie'); // 删除cookie
-          }
         });
       },
     },

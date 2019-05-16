@@ -50,14 +50,13 @@
         return this.$route.query.systemName;
       },
     },
-
     watch: {
       curType(val) {
         this.$refs[val].search();
       },
-      // '$route'(){
-      //   console.log('b')
-      // }
+    },
+    mounted() {
+      this.$refs[this.curType].search();
     },
 
     methods: {

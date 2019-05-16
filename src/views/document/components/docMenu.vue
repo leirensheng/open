@@ -174,23 +174,27 @@
         this.dataForDialog.visible = true;
       },
       save() {
-        const isEdit = typeof this.form.id == 'number';
-        this.dataForDialog.loading = true;
-        saveMenu(this.form).then(({ model }) => {
-          if (isEdit) {
-            this.list[this.curIdx] = { ...this.form };
-          } else {
-            this.list.push({ ...model });
+        this.$refs.form.validate(valid => {
+          if (valid) {
+            const isEdit = typeof this.form.id == 'number';
+            this.dataForDialog.loading = true;
+            saveMenu(this.form).then(({ model }) => {
+              this.dataForDialog.loading = false;
+              this.dataForDialog.visible = false;
+              this.$refs.form.resetFields();
+              this.form = {
+                state: '',
+                name: '',
+              };
+              if (isEdit) {
+                this.list[this.curIdx] = { ...this.form };
+              } else {
+                this.list.push({ ...model });
+              }
+            }).catch(() => {
+              this.dataForDialog.loading = false;
+            });
           }
-          this.dataForDialog.loading = false;
-          this.dataForDialog.visible = false;
-          this.$refs.form.resetFields();
-          this.form = {
-            state: '',
-            name: '',
-          };
-        }).catch(() => {
-          this.dataForDialog.loading = false;
         });
       },
       moveUp(one, index) {
@@ -213,7 +217,7 @@
       },
 
       saveToDb(id, changeId) {
-        changeSeq({ id, changeId }).then(() => {
+        return changeSeq({ id, changeId }).then(() => {
           this.$message.success('目录保存成功');
         }).catch(e => {
           this.getList();

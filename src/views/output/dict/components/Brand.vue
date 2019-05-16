@@ -8,7 +8,7 @@
       :label-width="'130px'"
       :basic-query-form="basicQueryForm"
       :get-data="list"
-      @importDict="importDict"
+      @uploadDone="uploadDone"
       @exportDict="exportDict">
       <div slot="tips">
         <div>
@@ -23,28 +23,12 @@
         </span>
       </div>
     </v-table>
-    <!--
-    <input
-      id="File1"
-      ref="upload"
-      class="upload-input"
-      type="file"> -->
-
-
-    <form>
-      <input
-        ref="upload"
-        type="file"
-        class="upload-input"
-        name="filename"
-        @change="fileChange($event)"><br>
-    </form>
   </div>
 </template>
 <script>
   import vTable from '@/components/vTable/vTable.vue';
   import {
-    list, update, download, upload,
+    list, update, download, 
   } from '@/api/dataRel';
 
   export default {
@@ -63,21 +47,7 @@
             },
           },
         ],
-        topBtnsConfig: [
-          {
-            name: '字典导出',
-            eventName: 'exportDict',
-          },
-          {
-            name: '字典导入',
-            eventName: 'importDict',
-          },
-          {
-            type: 'slot',
-            slotName: 'template',
-            // name: '字典导入',
-          },
-        ],
+
         columns: [
           {
             name: 'id',
@@ -150,34 +120,37 @@
           systemId: this.$route.query.systemId,
         };
       },
+
+      topBtnsConfig() {
+        return [
+          {
+            name: '字典导出',
+            eventName: 'exportDict',
+          },
+          {
+            name: '字典导入',
+            type: 'upload',
+            action: '/open/supplier/dataRel/import',
+            eventName: 'uploadDone',
+            data: this.basicQueryForm,
+          },
+          {
+            type: 'slot',
+            slotName: 'template',
+          },
+        ];
+      },
     },
     methods: {
       list,
       downloadTemplate() {
         download({ type: 1 });
       },
-      importDict() {
-        this.$refs.upload.click();
 
-        // upload(this.basicQueryForm).then(() => {
-        //   this.search();
-        // });
+      uploadDone() {
+        this.search();
       },
-      fileChange(e) {
-        e.preventDefault();
 
-        console.log(e);
-        const file = e.target.files[0];
-        console.log(file);
-        const formData = new FormData();
-        // 向 formData 对象中添加文件
-        formData.append('file', file);
-
-        console.log(formData);
-
-
-        upload({ ...formData, ...this.basicQueryForm }).then(() => this.search());
-      },
       exportDict() {
         download(this.basicQueryForm);
       },
@@ -187,11 +160,3 @@
     },
   };
 </script>
-<style lang="scss" scoped>
-.upload-input{
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-</style>

@@ -1,6 +1,7 @@
 <template>
   <div>
     <Base
+      :special-columns="specialColumns"
       :basic-query-form="basicQueryForm"
       :columns="columns" />
   </div>
@@ -17,6 +18,8 @@
         basicQueryForm: {
           source: 2,
         },
+        specialColumns: ['Appwd', 'Appkey'],
+
         columns: [
           {
             name: '天戟信息',
@@ -83,28 +86,28 @@
             support: ['add', 'edit'],
           },
           {
-            name: '长远AppKey',
+            name: '长远Appkey',
             id: 'Appkey',
             required: true,
             support: {
               add: {
-                dialogName: 'AppKey',
+                dialogName: 'Appkey',
               },
               edit: {
-                dialogName: 'AppKey',
+                dialogName: 'Appkey',
               },
             },
           },
           {
-            name: '长远Apppwd',
-            id: 'Apppwd',
+            name: '长远Appwd',
+            id: 'Appwd',
             required: true,
             support: {
               add: {
-                dialogName: 'Apppwd',
+                dialogName: 'Appwd',
               },
               edit: {
-                dialogName: 'Apppwd',
+                dialogName: 'Appwd',
               },
             },
           },

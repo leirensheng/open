@@ -53,16 +53,34 @@
 
           <template
             v-for="btnConfig in topBtnsConfig">
+            <slot
+              v-if="btnConfig.type==='slot'"
+              :name="btnConfig.slotName" />
+
+            <el-upload
+              v-else-if="btnConfig.type=='upload'"
+              style="margin:0 8px"
+              :show-file-list="false"
+              :action="btnConfig.action"
+              :on-error="handlerUploadErr"
+              :data="btnConfig.data||{}"
+              :on-success="()=>handlerUploadSucc(btnConfig.eventName)"
+              :on-progress="()=>uploading=true">
+              <el-button
+                :loading="uploading"
+                size="large"
+                :type="btnConfig.btnType||'primary'">
+                {{ btnConfig.name }}
+              </el-button>
+            </el-upload>
+
             <el-button
-              v-if="btnConfig.type!=='slot'"
+              v-else
               :type="btnConfig.btnType||'primary'"
               size="large"
               @click="()=>handleTopBtnClick(btnConfig)">
               {{ btnConfig.name }}
             </el-button>
-            <slot
-              v-else
-              :name="btnConfig.slotName" />
           </template>
 
           <!--
@@ -251,6 +269,7 @@
         queryParams: {}, // 查询
         loading: false,
         tableDataHandled: [],
+        uploading: false,
       };
     },
     computed: {
@@ -324,6 +343,14 @@
       });
     },
     methods: {
+      handlerUploadErr() {
+        this.uploading = false;
+        this.$message.error('文件上传失败');
+      },
+      handlerUploadSucc(eventName) {
+        this.uploading = false;
+        this.$emit(eventName);
+      },
       handleTopBtnClick(config) {
         if (config.addConfig) {
           this.addOrEdit(config.addConfig.title);
@@ -487,6 +514,7 @@
               .el-select {
                   width: 180px;
               }
+
               .el-input {
                   width: 180px;
 

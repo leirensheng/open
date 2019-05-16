@@ -1,8 +1,8 @@
 import fetch from '@/fetch';
 // 根据id查询供应商
-export function findSupplerById(params) {
+export function findSupplierById(params) {
   return fetch({
-    url: '/open/supplier/externalInterface/findSupplerById',
+    url: '/open/supplier/externalInterface/findSupplierById',
      method: 'get',
      params,
   });

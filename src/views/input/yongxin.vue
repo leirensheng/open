@@ -1,6 +1,7 @@
 <template>
   <div>
     <Base
+      :special-columns="specialColumns"
       :basic-query-form="basicQueryForm"
       :columns="columns" />
   </div>
@@ -17,6 +18,8 @@
         basicQueryForm: {
           source: 3,
         },
+        specialColumns: ['psign', 'gsign'],
+
         columns: [
           {
             name: '天戟信息',

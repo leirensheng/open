@@ -66,7 +66,7 @@
           },
           {
             name: 'appId',
-            id: 'appKey',
+            id: 'Appkey',
           },
           {
             name: 'secretKey',

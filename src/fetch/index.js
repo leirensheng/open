@@ -1,14 +1,14 @@
-import axios from 'axios';
+import Axios from 'axios';
 import { MessageBox, Message } from 'element-ui';
 import store from '@/store';
 import router from '@/router';
 
 // create an axios instance
-// const axios = axios.create({
-//   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-//   withCredentials: true, // send cookies when cross-domain requests
-//   timeout: 5000, // request timeout
-// });
+const axios = Axios.create({
+  baseURL: '/', // url = base url + request url
+  withCredentials: true, // send cookies when cross-domain requests
+  timeout: 5000, // request timeout
+});
 
 // request interceptor
 axios.interceptors.request.use(

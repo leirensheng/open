@@ -4,6 +4,7 @@
       {{ systemName }}
     </div>
     <v-table
+      ref="businessTable"
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
       :columns="columns"
@@ -21,7 +22,7 @@
   import {
     list, update, add, disable, enable,
   } from '@/api/systemSupplier';
-  import { findSupplerById, findRegion } from '@/api/base';
+  import { findSupplierById, findRegion } from '@/api/base';
 
   export default {
     name: 'Business',
@@ -105,7 +106,7 @@
           },
           {
             name: 'appId',
-            id: 'appKey',
+            id: 'Appkey',
           },
           {
             name: 'secretKey',
@@ -152,14 +153,16 @@
         return this.$route.query.systemName;
       },
     },
-
+    mounted() {
+      this.$refs.businessTable.search();
+    },
     methods: {
       //  供应商id变化处理
       handleIdChange({
         form,
       }) {
         form.supplierName = '';
-        findSupplerById({ supplierId: form.supplierId }).then(({ model: { orgName } }) => {
+        findSupplierById({ supplierId: form.supplierId }).then(({ model: { orgName } }) => {
           form.supplierName = orgName;
         });
       },

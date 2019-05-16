@@ -4,6 +4,7 @@
       {{ systemName }}
     </div>
     <v-table
+      ref="userTable"
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
       :columns="columns"
@@ -88,7 +89,7 @@
           },
           {
             name: 'appId',
-            id: 'appKey',
+            id: 'Appkey',
           },
           {
             name: 'secretKey',
@@ -140,6 +141,9 @@
       systemName() {
         return this.$route.query.systemName;
       },
+    },
+    mounted() {
+      this.$refs.userTable.search(true);
     },
     methods: {
       list,

@@ -19,6 +19,9 @@
         return !this.sidebar.opened;
       },
     },
+    mounted() {
+      this.$store.commit('SHOW_SIDEBAR');
+    },
 
   };
 </script>

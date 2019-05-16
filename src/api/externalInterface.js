@@ -25,18 +25,18 @@ export function update(data) {
   });
 }
 // 禁用
-export function disable(data) {
+export function disable(params) {
   return fetch({
     url: '/open/supplier/externalInterface/stop',
-    method: 'post',
-    data,
+    method: 'get',
+    params,
   });
 }
 // 启用
-export function enable(data) {
+export function enable(params) {
   return fetch({
     url: '/open/supplier/externalInterface/active',
-    method: 'post',
-    data,
+    method: 'get',
+    params,
   });
 }

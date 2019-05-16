@@ -21,7 +21,7 @@
   import {
     list, add, update, enable, disable,
   } from '@/api/externalInterface';
-  import { findCorporationList, findSupplerById } from '@/api/base';
+  import { findCorporationList, findSupplierById } from '@/api/base';
 
   export default {
     name: 'Dayou',
@@ -37,16 +37,19 @@
         type: Array,
         required: true,
       },
+      specialColumns: {
+        type: Array,
+        required: true,
+      },
     },
     data() {
       return {
-
         tableBtnsConfig: [
           {
             name: '编辑',
             editConfig: {
               title: '对接商家管理-编辑',
-              handler: update,
+              handler: this.handleAddOrEdit,
             },
           },
           {
@@ -66,7 +69,7 @@
             btnType: 'success',
             addConfig: {
               title: '添加对接商家',
-              handler: add,
+              handler: this.handleAddOrEdit,
             },
           },
         ],
@@ -75,7 +78,18 @@
     },
     methods: {
       list,
+      handleAddOrEdit(form) {
+        const copy = { ...form };
+        copy.externalInterfaceExtendDTOs = this.specialColumns.map(one => ({
+          name: one,
+          value: form[one],
+        }));
+        this.specialColumns.forEach(one => {
+          delete copy[one];
+        });
 
+        return form.id !== undefined ? update(copy) : add(copy);
+      },
       // 从后端获取表格数据后进行处理
       beforeAssignToTable(data) {
         data.forEach(obj => {
@@ -114,7 +128,7 @@
         const target = this.columns.find(one => one.id == 'corporationId');
         target.options = [];
 
-        findSupplerById({ supplierId: form.supplierId }).then(({ model }) => {
+        findSupplierById({ supplierId: form.supplierId }).then(({ model }) => {
           if (model) {
             form.supplierName = model.orgName;
           } else {

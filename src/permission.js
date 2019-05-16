@@ -21,10 +21,8 @@ router.beforeEach(async (to, from, next) => {
   if (store.getters.hasLogin) {
     if (to.path === '/login') { // 已经登录不允许跳转登录页
       next({ path: '/welcome/index' });
-      NProgress.done();
     } else if (store.getters.name) {
       next();
-      NProgress.done();
      } else {
         try {
            await store.dispatch('getUserInfo');
@@ -51,20 +49,16 @@ router.beforeEach(async (to, from, next) => {
          store.commit('SAVE_USER_ROUTE_STATE', hasUserRoute);
 
           next({ ...to, replace: true });
-          NProgress.done();
         } catch (error) {
           console.log(error);
           Message.error(error || 'Has Error');
           next(`/login?redirect=${to.path}`);
-          NProgress.done();
         }
       }
   } else if (whiteList.indexOf(to.path) !== -1) { // 未登录但是允许跳转的路由，直接通过
      next();
-     NProgress.done();
    } else { // 未登录非白名单，都重定向到登录页
      next(`/login?redirect=${to.path}`);
-     NProgress.done();
    }
 });
 

@@ -18,6 +18,11 @@ const app = {
       state.sidebar.opened = !state.sidebar.opened;
       state.sidebar.withoutAnimation = false;
     },
+    SHOW_SIDEBAR: state => {
+      Cookies.set('sidebarStatus', 1);
+      state.sidebar.opened = 1;
+      state.sidebar.withoutAnimation = false;
+    },
     CLOSE_SIDEBAR: (state, withoutAnimation) => {
       Cookies.set('sidebarStatus', 1);
       state.sidebar.opened = false;

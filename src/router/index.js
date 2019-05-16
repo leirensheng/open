@@ -79,7 +79,6 @@ export const userRoutes = [
         meta: {
           noCache: true,
           title: '账号信息',
-          icon: 'a',
         },
        },
     ],
@@ -99,7 +98,6 @@ export const userRoutes = [
         component: () => import('@/views/user/testParams.vue'),
         meta: {
           title: '测试参数',
-          icon: 'a',
         },
        },
     ],
@@ -110,7 +108,7 @@ export const userRoutes = [
     meta: {
       title: '对接商家信息',
     },
-
+    alwaysShow: true,
     children: [
       {
         path: 'info',

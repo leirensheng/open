@@ -76,8 +76,8 @@
         publicPath: process.env.BASE_URL,
         menus: [{ name: '首页', url: '/', active: () => this.$route.path === '/' },
                 { name: 'API文档', url: '/doc', active: () => this.$route.path == '/doc' },
-                { name: '用户中心', url: '/welcome/index', active: () => !['/', '/login', '/404'].includes(this.$route.path) },
-                { name: '管理中心', url: '/welcome/index', active: () => !['/', '/login', '/404'].includes(this.$route.path) }],
+                { name: '用户中心', url: '/welcome/index', active: () => !['/', '/login', '/404', '/doc'].includes(this.$route.path) },
+                { name: '管理中心', url: '/welcome/index', active: () => !['/', '/login', '/404', '/doc'].includes(this.$route.path) }],
       };
     },
     computed: {
@@ -107,6 +107,7 @@
 </script>
 <style lang="scss" scoped>
    #top-menu{
+     z-index: 1001;
      background-color: #212636;
      height: 86px;
      color:white;

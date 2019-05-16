@@ -1,6 +1,7 @@
 <template>
   <div>
     <Base
+      :special-columns="specialColumns"
       :basic-query-form="basicQueryForm"
       :columns="columns" />
   </div>
@@ -17,6 +18,7 @@
         basicQueryForm: {
           source: 1,
         },
+        specialColumns: ['Webname', 'Appkey', 'Appwd'],
         columns: [
           {
             name: '天戟信息',
@@ -96,15 +98,15 @@
             },
           },
           {
-            name: '大有AppKey',
+            name: '大有Appkey',
             id: 'Appkey',
             required: true,
             support: {
               add: {
-                dialogName: 'AppKey',
+                dialogName: 'Appkey',
               },
               edit: {
-                dialogName: 'AppKey',
+                dialogName: 'Appkey',
               },
             },
           },
