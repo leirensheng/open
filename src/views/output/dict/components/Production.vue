@@ -77,6 +77,7 @@
             id: 'dataValue',
             required: true,
             support: {
+              query: {},
               edit: {
                 dialogName: '配件产地名称',
                 disabled: true,

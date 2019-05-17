@@ -38,14 +38,3 @@
     },
   };
 </script>
-
-<style scoped>
-.app-main {
-  /*56 = navbar  */
-  /*50 = TagsView  */
-  min-height: calc(100vh - 56px - 42px - 86px);
-  position: relative;
-  overflow: hidden;
-  padding: 6px;
-}
-</style>

@@ -5,7 +5,7 @@
       :title="inputs.title"
       :visible="inputs.show"
       :close-on-click-modal="false"
-      :show-close="false"
+      :before-close="()=>inputs.show=false"
       width="32%"
       center
       @close="close"
@@ -21,7 +21,7 @@
           v-for="(one,index) in showItems"
           :key="index">
           <el-form-item
-            v-if="!['slot','title'].includes(getItemType(one))"
+            v-if="!['slot','title','underline'].includes(getItemType(one))"
             :prop="one.id"
             :label="getLabel(one)">
             <!-- 文本 -->
@@ -95,25 +95,30 @@
           <div
             v-else-if="getItemType(one)=='title'"
             class="title">
+            <span class="line" />
             {{ one.name }}
           </div>
+          <div
+            v-else-if="getItemType(one)=='underline'"
+            class="underline" />
           <slot
             v-else
             :name="one.slotName" />
         </div>
+        <el-form-item>
+          <el-button
+            size="medium"
+            @click="inputs.show = false">
+            取 消
+          </el-button>
+          <el-button
+            size="medium"
+            type="primary"
+            @click="confirm">
+            确 定
+          </el-button>
+        </el-form-item>
       </el-form>
-      <span
-        slot="footer"
-        class="dialog-footer">
-        <el-button @click="inputs.show = false">
-          取 消
-        </el-button>
-        <el-button
-          type="primary"
-          @click="confirm">
-          确 定
-        </el-button>
-      </span>
     </el-dialog>
   </div>
 </template>
@@ -247,11 +252,19 @@
 <style lang="scss" scoped>
     .title {
       padding:7px;
-      border-bottom: 1px dotted #d6d6d6;
       color: #0D0D0D;
       font-weight: bold;
       font-size: 16px ;
       margin-bottom: 15px;
+      .line{
+      border: 3px solid #2E82FF;
+      margin-right: 13px;
+      border-radius: 4px;
+      }
     }
-
+    .underline{
+      // width: 100
+      margin-bottom: 16px;
+      border-bottom: 1px dotted #d6d6d6;
+    }
 </style>

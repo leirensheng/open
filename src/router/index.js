@@ -27,18 +27,35 @@ export const basicRoutes = [
   {
     path: '/',
     hidden: true,
-    component: () => import('@/views/home/home.vue'),
+    redirect: 'welcome/index',
+    component: Layout,
+    
   },
   {
     path: '/doc',
     hidden: true,
-    component: () => import('@/views/document/docView.vue'),
+    redirect: 'doc/index',
+    component: Layout,
+     children: [
+       {
+         path: 'index',
+         component: () => import('@/views/document/docView.vue'),
+       },
+     ],
   },
   {
     path: '/login',
-    component: () => import('@/views/login/index'),
     hidden: true,
+    redirect: 'login/index',
+    component: Layout,
+     children: [
+       {
+         path: 'index',
+         component: () => import('@/views/login/index'),
+        },
+     ],
   },
+
 
   {
     path: '/welcome',

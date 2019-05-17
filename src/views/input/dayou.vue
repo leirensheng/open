@@ -80,6 +80,12 @@
             },
           },
           {
+            name: '下划线',
+            queryType: 'underline',
+            isShow: false,
+            support: ['add', 'edit'],
+          },
+          {
             name: '大有信息',
             queryType: 'title',
             support: ['add', 'edit'],

@@ -17,7 +17,9 @@
       </div>
       <div slot="template">
         <span>
-          导入为覆盖式更新， 请务必 <span @click="downloadTemplate">
+          导入为覆盖式更新， 请务必 <span
+            class="downlink"
+            @click="downloadTemplate">
             下载导入模板
           </span>
         </span>
@@ -28,7 +30,7 @@
 <script>
   import vTable from '@/components/vTable/vTable.vue';
   import {
-    list, update, download, 
+    list, update, download,
   } from '@/api/dataRel';
 
   export default {
@@ -125,10 +127,12 @@
         return [
           {
             name: '字典导出',
+            btnType:{ isPlain: true,type:'primary'},
             eventName: 'exportDict',
           },
           {
             name: '字典导入',
+            btnType:{ isPlain: true,type:'primary'},
             type: 'upload',
             action: '/open/supplier/dataRel/import',
             eventName: 'uploadDone',
@@ -160,3 +164,11 @@
     },
   };
 </script>
+<style lang="scss" scoped>
+ .downlink{
+   text-decoration:underline;
+   color: #2E82FF;
+   cursor: pointer;
+ }
+
+</style>

@@ -22,7 +22,17 @@
         class="board-item"
         :class="curMenuId===one.id?'active':''"
         @click="()=>{setCurMenuId(one.id)}">
-        <div>{{ one.name }}</div>
+        <div>
+          <span
+            v-if="one.state=== -1"
+            class="iconfont icon-bukejian" />
+          <span
+            v-else
+            class="iconfont icon-kejian" />
+          <span class="menuName">
+            {{ one.name }}
+          </span>
+        </div>
         <div>
           <i
             class="el-icon-sort sort" />
@@ -38,7 +48,6 @@
               <el-dropdown-item
                 v-for=" item in dropDownItems"
                 :key="item.name"
-                icon="el-icon-plus"
                 :disabled="item.disabled&&item.disabled(one,index) ">
                 <div
                   @click="item.handler(one,index)">
@@ -139,8 +148,6 @@
           ],
         },
         dropDownItems: [{ name: '编辑', handler: this.edit },
-                        { name: '上移动一格', handler: this.moveUp, disabled: (one, index) => index == 0 },
-                        { name: '下移一格', handler: this.moveDown, disabled: (one, index) => index == this.list.length - 1 },
                         { name: '删除', handler: this.delete },
         ],
       };
@@ -303,7 +310,10 @@
         display: inline-block;
         margin-right: 6px;
       }
-
+      .menuName{
+        display: inline-block;
+        margin-left: 6px;
+      }
       &.active{
         background-color: #2E82FF;
         color: white;

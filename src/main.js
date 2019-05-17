@@ -8,6 +8,7 @@ import locale from 'element-ui/lib/locale/lang/zh-CN'; // lang i18n
 import BelTable from 'vue-bel-table';
 
 import '@/styles/index.scss'; // global css
+import '@/assets/fonts/iconfont.css';
 
 import App from './App.vue';
 import store from './store';

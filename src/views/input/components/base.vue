@@ -66,7 +66,7 @@
         topBtnsConfig: [
           {
             name: '添加',
-            btnType: 'success',
+            btnType:{ isPlain: true,type:'primary'},
             addConfig: {
               title: '添加对接商家',
               handler: this.handleAddOrEdit,

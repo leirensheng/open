@@ -6,19 +6,19 @@
       :is-active="sidebar.opened"
       class="hamburger-container"
       @toggleClick="toggleSideBar" />
-    <breadcrumb />
+    <Top-Menu />
   </el-menu>
 </template>
 
 <script>
   import { mapGetters } from 'vuex';
-  import Breadcrumb from '@/components/Breadcrumb/index.vue';
   import Hamburger from '@/components/Hamburger/index.vue';
+  import TopMenu from '@/views/topMenu/TopMenu.vue';
 
   export default {
     components: {
-      Breadcrumb,
       Hamburger,
+      TopMenu,
     },
     data() {
       return {

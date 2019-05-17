@@ -8,9 +8,13 @@
       :text-color="variables.menuText"
       :active-text-color="variables.menuActiveText"
       mode="vertical">
-      <div class="logo">
-        <router-link to="/welcome">
-          <span>天戟ERP开放平台</span>
+      <div>
+        <router-link to="/welcome/index">
+          <div class="logo">
+            <img
+              src="@/assets/images/logo.png">
+            <div>开放平台</div>
+          </div>
         </router-link>
       </div>
       <sidebar-item
@@ -52,10 +56,16 @@
   background-color: #2E82FF;
   padding: 15px 18px;
   color:white;
-  font-size: 16px;
-  line-height: 28px;
-  font-family:HYk1gj;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size:18px;
+  font-family:SourceHanSansCN-Medium;
   font-weight:bold;
-
+  color:rgba(255,255,255,1);
+  line-height:28px;
+  div{
+    margin-left: 8px;
+  }
 }
 </style>

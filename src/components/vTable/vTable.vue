@@ -69,14 +69,16 @@
               <el-button
                 :loading="uploading"
                 size="large"
-                :type="btnConfig.btnType||'primary'">
+                :plain="btnConfig.btnType&&btnConfig.btnType.isPlain"
+                :type="typeof btnConfig.btnType==='object'?btnConfig.btnType.type :(btnConfig.btnType||'primary')">
                 {{ btnConfig.name }}
               </el-button>
             </el-upload>
 
             <el-button
               v-else
-              :type="btnConfig.btnType||'primary'"
+              :plain="btnConfig.btnType&&btnConfig.btnType.isPlain"
+              :type="typeof btnConfig.btnType==='object'?btnConfig.btnType.type :(btnConfig.btnType||'primary')"
               size="large"
               @click="()=>handleTopBtnClick(btnConfig)">
               {{ btnConfig.name }}
@@ -488,7 +490,7 @@
     box-sizing: border-box;
   }
   .table-wrap{
-    padding: 0 10px 10px 10px;
+    // padding: 0 10px 10px 10px;
     .title {
         display: inline-block;
         text-indent: 15px;

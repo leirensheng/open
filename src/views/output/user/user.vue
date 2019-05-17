@@ -55,7 +55,10 @@
         topBtnsConfig: [
           {
             name: '添加',
-            btnType: 'success',
+            btnType: {
+              isPlain: true,
+              type: 'primary',
+            },
             addConfig: {
               title: '添加外部用户',
               handler: add,

@@ -1,5 +1,7 @@
 <template>
-  <div class="tags-view__wrap">
+  <div
+    v-show="isShow"
+    class="tags-view__wrap">
     <scroll-pane
       ref="scrollPane"
       class="tags-view-wrapper">
@@ -58,6 +60,9 @@
     computed: {
       visitedViews() {
         return this.$store.state.tagsView.visitedViews;
+      },
+      isShow() {
+        return !['/doc/index', '/welcome/index'].includes(this.$route.path);
       },
     },
     watch: {
@@ -182,7 +187,7 @@
       padding: 0 10px;
       font-size: 12px;
       margin-left: -1px;
-      margin-top: 6px;
+      margin-top: 9px;
       &:first-of-type {
         margin-left: 20px;
       }

@@ -15,11 +15,11 @@ NProgress.configure({
   showSpinner: false,
 }); // NProgress Configuration
 
-const whiteList = ['/login', '/', '/doc']; // 不重定向白名单
+const whiteList = ['/login/index', '/', '/doc/index']; // 不重定向白名单
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
   if (store.getters.hasLogin) {
-    if (to.path === '/login') { // 已经登录不允许跳转登录页
+    if (to.path === '/login/index') { // 已经登录不允许跳转登录页
       next({ path: '/welcome/index' });
     } else if (store.getters.name) {
       next();
@@ -52,13 +52,14 @@ router.beforeEach(async (to, from, next) => {
         } catch (error) {
           console.log(error);
           Message.error(error || 'Has Error');
-          next(`/login?redirect=${to.path}`);
+          next(`/login/index?redirect=${to.path}`);
+          NProgress.done();
         }
       }
   } else if (whiteList.indexOf(to.path) !== -1) { // 未登录但是允许跳转的路由，直接通过
      next();
    } else { // 未登录非白名单，都重定向到登录页
-     next(`/login?redirect=${to.path}`);
+     next(`/login/index?redirect=${to.path}`);
    }
 });
 

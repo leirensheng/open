@@ -2,11 +2,6 @@
 
 <template>
   <div id="top-menu">
-    <div class="logo">
-      <img
-        src="@/assets/images/btr.png"
-        alt="">
-    </div>
     <div class="menu">
       <div
         v-for="item in menusShow"
@@ -70,14 +65,14 @@
   import { mapGetters } from 'vuex';
 
   export default {
-    name: 'App',
+    name: 'TopMenu',
     data() {
       return {
         publicPath: process.env.BASE_URL,
-        menus: [{ name: '首页', url: '/', active: () => this.$route.path === '/' },
-                { name: 'API文档', url: '/doc', active: () => this.$route.path == '/doc' },
-                { name: '用户中心', url: '/welcome/index', active: () => !['/', '/login', '/404', '/doc'].includes(this.$route.path) },
-                { name: '管理中心', url: '/welcome/index', active: () => !['/', '/login', '/404', '/doc'].includes(this.$route.path) }],
+        menus: [
+          { name: 'API文档', url: '/doc/index', active: () => this.$route.path == '/doc/index' },
+          { name: '用户中心', url: '/welcome/index', active: () => !['/', '/login/index', '/404', '/doc/index'].includes(this.$route.path) },
+          { name: '管理中心', url: '/welcome/index', active: () => !['/', '/login/index', '/404', '/doc/index'].includes(this.$route.path) }],
       };
     },
     computed: {
@@ -108,31 +103,30 @@
 <style lang="scss" scoped>
    #top-menu{
      z-index: 1001;
-     background-color: #212636;
-     height: 86px;
-     color:white;
-     position: fixed;
-     top:0;
-     right:0;
-     left:0;
+     height: 56px;
+    //  color:white;
+    //  position: fixed;
+    //  top:0;
+    //  right:0;
+    //  left:0;
      display: flex;
      align-items: center;
      justify-content: space-between;
-     .logo{
-       margin-left:30px;
-       width: 140px;
-       flex:0 0 auto;
-     }
+
      .menu{
         display: flex;
         flex:0 1 1400px;
         .one-menu{
           font-family:MicrosoftYaHei;
           font-size: 18px;
-          width: 143px;
+          width: 80px;
+          margin: 0 20px;
+          text-align: center;
+          border-bottom: 2px solid transparent;
           cursor: pointer;
           &.active{
-            color:#02B588;
+            color:#2E82FF;
+            border-bottom: 2px solid #2E82FF;
           }
         }
      }
@@ -140,6 +134,7 @@
        padding-right: 12px;
        display: flex;
        align-items: center;
+       color: #2E82FF;
         .no-login{
           width: 60px;
           cursor: pointer;
@@ -161,12 +156,10 @@
               position: relative;
             }
             .user-name {
-              width:31px;
-              height:15px;
               font-size:16px;
               font-family:MicrosoftYaHeiLight;
               font-weight:300;
-              color:rgba(255,255,255,1);
+              color:rgba(0,0,0,1);
               line-height:28px;
             }
             .el-icon-caret-bottom {

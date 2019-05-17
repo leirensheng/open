@@ -1,61 +1,76 @@
 <template>
-  <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      auto-complete="on"
-      label-position="left">
-      <h3 class="title">
-        客服系统
-      </h3>
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <i class="iconfont icon-geren icon" />
-        </span>
-        <el-input
-          v-model="loginForm.username"
-          name="username"
-          type="text"
-          auto-complete="on"
-          placeholder="username" />
-      </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <i class="iconfont icon-xiugaimima icon" />
-        </span>
-        <el-input
-          v-model="loginForm.password"
-          :type="pwdType"
-          name="password"
-          auto-complete="on"
-          placeholder="password"
-          @keyup.enter.native="handleLogin" />
-        <span
-          class="show-pwd"
-          @click="showPwd">
-          <i
-            :class="{'icon-yanjing-open': pwdType === ''}"
-            class="iconfont icon-yanjing icon" />
-        </span>
-      </el-form-item>
+  <div
+    class="login-container"
+    :style="{backgroundImage: 'url(' + pic + ')' }">
+    <div class="form-container">
+      <el-form
+        ref="loginForm"
+        :model="loginForm"
+        :rules="loginRules"
+        class="login-form"
+        auto-complete="on"
+        size="large"
+        label-position="left">
+        <div
+          class="logo"
+          :style="{backgroundImage: 'url(' + logo + ')' }" />
+        <h3 class="title">
+          EPR接口开放平台
+        </h3>
+        <el-form-item prop="username">
+          <el-input
+            v-model="loginForm.username"
+            name="username"
+            type="text"
+            auto-complete="on"
+            placeholder="username">
+            <template slot="prepend">
+              <i
+                class="el-icon-user
+               " />
+            </template>
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            v-model="loginForm.password"
+            :type="pwdType"
+            name="password"
+            auto-complete="on"
+            placeholder="password"
+            @keyup.enter.native="handleLogin">
+            <template slot="prepend">
+              <i
+                class="el-icon-lock
+               " />
+            </template>
+          </el-input>
+          <span
+            class="show-pwd"
+            @click="showPwd">
+            <i
+              :class="{'icon-yanjing-open': pwdType === ''}"
+              class="iconfont icon-yanjing icon" />
+          </span>
+        </el-form-item>
 
-      <el-form-item>
-        <el-button
-          :loading="loading"
-          type="primary"
-          style="width:100%;"
-          @click.native.prevent="handleLogin">
-          登录
-        </el-button>
-      </el-form-item>
-    </el-form>
+        <el-form-item>
+          <el-button
+            :loading="loading"
+            type="primary"
+            style="width:100%;"
+            @click.native.prevent="handleLogin">
+            登录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script>
-
+  import pic from '@/assets/images/bg.png';
+  import logo from '@/assets/images/logo1.png';
 
   export default {
     name: 'Login',
@@ -75,6 +90,8 @@
         }
       };
       return {
+        pic,
+        logo,
         loginForm: {
           username: 'admin',
           password: 'admin',
@@ -122,57 +139,38 @@
   };
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
-$bg:#2d3a4b;
-$light_gray:#eee;
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: #fff !important;
-      }
-    }
-  }
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-}
-
-</style>
-
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 .login-container {
+  z-index: 1002;
   position: fixed;
-  height: 100%;
+  top:56px;
+  left:-1;
+  right:0;
+  bottom:0;
   width: 100%;
-  background-color: $bg;
+  width: 100%;
+  height: 100vh;
+  // background: at
+  .form-container{
+    background-color: white !important;
+    .logo{
+      width: 100px;
+      height: 100px;
+      margin:0 auto;
+      margin-bottom: 20px;
+    }
   .login-form {
     position: absolute;
-    left: 0;
-    right: 0;
-    width: 520px;
+    left: 1000px;
+    top:224px;
+    // right: 0;
+    width: 420px;
     max-width: 100%;
-    padding: 35px 35px 15px 35px;
-    margin: 120px auto;
+    padding: 60px 40px;
+    // margin: 120px auto;
+    background-color: white;
   }
   .tips {
     font-size: 14px;
@@ -192,19 +190,19 @@ $light_gray:#eee;
     display: inline-block;
   }
   .title {
-    font-size: 26px;
-    font-weight: 400;
-    color: $light_gray;
-    margin: 0px auto 40px auto;
+    font-size:24px;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:rgba(52,56,65,1);
+    line-height:14px;
+    padding: 20px 0;
     text-align: center;
-    font-weight: bold;
   }
   .show-pwd {
     position: absolute;
     right: 10px;
     top: 7px;
     font-size: 16px;
-    color: $dark_gray;
     cursor: pointer;
     user-select: none;
   }
@@ -212,5 +210,8 @@ $light_gray:#eee;
     height: 30px;
     text-align: right;
   }
+  }
+
 }
+
 </style>

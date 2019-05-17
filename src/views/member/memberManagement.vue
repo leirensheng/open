@@ -49,7 +49,7 @@
         topBtnsConfig: [
           {
             name: '添加',
-            btnType: 'success',
+            btnType:{ isPlain: true,type:'primary'},
             addConfig: {
               title: '新增人员',
               handler: add,

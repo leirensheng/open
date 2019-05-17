@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding:12px">
     <v-table
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
@@ -48,7 +48,7 @@
         topBtnsConfig: [
           {
             name: '添加文档',
-            btnType: 'success',
+            btnType: { isPlain: true, type: 'primary' },
             eventName: 'gotoModify',
           },
         ],

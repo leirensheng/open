@@ -2,11 +2,7 @@
   <div class="container">
     <div class="left">
       <div class="top">
-        <img
-          :src="menuImg"
-          alt="">
         <span
-          v-show="!inputShow"
           class="mulu">
           目录
         </span>
@@ -69,13 +65,11 @@
   </div>
 </template>
 <script>
-  import menuImg from '@/assets/images/menu.png';
   import { search, docView } from '@/api/document';
 
   export default {
     data() {
       return {
-        menuImg,
         defaultActive: '',
         inputShow: false,
         tree: [],
@@ -84,9 +78,7 @@
         loading: false,
         docData: {
           title: '',
-          content: `<h1 style="text-align: center;">Welcome to the TinyMCE demo!</h1><p style="text-align: center; font-size: 15px;"><img title="TinyMCE Logo" src="//www.tinymce.com/images/glyph-tinymce@2x.png" alt="TinyMCE Logo" width="110" height="97" /><ul>
-        <li>Our <a href="//www.tinymce.com/docs/">documentation</a> is a great resource for learning how to configure TinyMCE.</li><li>Have a specific question? Visit the <a href="https://community.tinymce.com/forum/">Community Forum</a>.</li><li>We also offer enterprise grade support as part of <a href="https://tinymce.com/pricing">TinyMCE premium subscriptions</a>.</li>
-      </ul>`,
+          content: '',
         },
 
       };
@@ -139,6 +131,14 @@
 </script>
 <style lang="scss" scoped>
  .container{
+   z-index: 1002;
+   position: fixed;
+   background-color: white;
+   min-height: calc(100vh - 56px);
+   top:56px;
+   left:0;
+   right:0;
+   padding: 42px 110px;
    .el-menu-item.is-active{
      background-color: #CBCBCB;
    }
@@ -161,10 +161,7 @@
         display: inline-block;
         margin-left: 20px;
       }
-      img{
-        height: 72px;
-        float: left;
-      }
+
      .icon-or-input{
        float: right;
         .icon-input{

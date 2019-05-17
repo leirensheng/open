@@ -4,14 +4,16 @@
       {{ systemName }}
     </div>
     <div class="page-top">
-      <span
-        v-for="one in options"
-        :key="one.id"
-        class="tag"
-        :class="one.id===curType?'active':''"
-        @click="()=>gotoPage(one)">
-        {{ one.name }}
-      </span>
+      <div class="tag-container">
+        <span
+          v-for="one in options"
+          :key="one.id"
+          class="tag"
+          :class="one.id===curType?'active':''"
+          @click="()=>gotoPage(one)">
+          {{ one.name }}
+        </span>
+      </div>
     </div>
     <div class="content">
       <Brand

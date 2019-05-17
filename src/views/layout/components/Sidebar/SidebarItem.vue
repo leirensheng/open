@@ -39,7 +39,9 @@
           v-else
           :key="child.name"
           :to="resolvePath(child.path)">
-          <el-menu-item :index="resolvePath(child.path)">
+          <el-menu-item
+            class="menu"
+            :index="resolvePath(child.path)">
             <item
               v-if="child.meta"
               :icon="child.meta.icon"
