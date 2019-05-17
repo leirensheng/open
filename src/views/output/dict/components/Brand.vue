@@ -1,55 +1,27 @@
 <template>
   <div>
-    <v-table
-      ref="brandTable"
-      :table-btns-config="tableBtnsConfig"
-      :top-btns-config="topBtnsConfig"
+    <Base
+      :ref="curName"
       :columns="columns"
-      :label-width="'130px'"
+      :cur-name="curName"
       :basic-query-form="basicQueryForm"
-      :get-data="list"
-      @uploadDone="uploadDone"
-      @exportDict="exportDict">
-      <div slot="tips">
-        <div>
-          填入对接系统车品牌名称，表示对接系统传入此名称时，系统识别为巴图鲁的“xxx”车品牌。不填则接口不会接入"xxx“品牌的数据
-        </div>
-      </div>
-      <div slot="template">
-        <span>
-          导入为覆盖式更新， 请务必 <span
-            class="downlink"
-            @click="downloadTemplate">
-            下载导入模板
-          </span>
-        </span>
-      </div>
-    </v-table>
+      :template-url="templateUrl"
+      :tips="tips" />
   </div>
 </template>
 <script>
-  import vTable from '@/components/vTable/vTable.vue';
-  import {
-    list, update, download,
-  } from '@/api/dataRel';
+  import Base from './Base.vue';
+
 
   export default {
-    // name:''
     components: {
-      vTable,
+      Base,
     },
     data() {
       return {
-        tableBtnsConfig: [
-          {
-            name: '编辑',
-            editConfig: {
-              title: '车品牌字典匹配关系',
-              handler: update,
-            },
-          },
-        ],
-
+        curName: '车品牌字典',
+        tips: '填入对接系统车品牌名称，表示对接系统传入此名称时，系统识别为巴图鲁的“xxx”车品牌。不填则接口不会接入"xxx“品牌的数据',
+        templateUrl: '/static/xlsTemplate/carBrand.xls',
         columns: [
           {
             name: 'id',
@@ -118,57 +90,15 @@
       basicQueryForm() {
         return {
           type: 1,
-          dataValue: '巴图鲁车品牌名称',
+          // dataValue: '',
           systemId: this.$route.query.systemId,
         };
       },
-
-      topBtnsConfig() {
-        return [
-          {
-            name: '字典导出',
-            btnType:{ isPlain: true,type:'primary'},
-            eventName: 'exportDict',
-          },
-          {
-            name: '字典导入',
-            btnType:{ isPlain: true,type:'primary'},
-            type: 'upload',
-            action: '/open/supplier/dataRel/import',
-            eventName: 'uploadDone',
-            data: this.basicQueryForm,
-          },
-          {
-            type: 'slot',
-            slotName: 'template',
-          },
-        ];
-      },
     },
     methods: {
-      list,
-      downloadTemplate() {
-        download({ type: 1 });
-      },
-
-      uploadDone() {
-        this.search();
-      },
-
-      exportDict() {
-        download(this.basicQueryForm);
-      },
       search() {
-        this.$refs.brandTable.search();
+        this.$refs[this.curName].search();
       },
     },
   };
 </script>
-<style lang="scss" scoped>
- .downlink{
-   text-decoration:underline;
-   color: #2E82FF;
-   cursor: pointer;
- }
-
-</style>

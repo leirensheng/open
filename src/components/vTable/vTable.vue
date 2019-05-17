@@ -461,7 +461,8 @@
         this.search();
       },
       // 查询条件变化，没有点击搜索
-      handleQueryChange() {
+      handleQueryChange(val, id) {
+        this.$emit('queryChange', id, val);
         if (this.searchOnChange) {
           this.search();
         }

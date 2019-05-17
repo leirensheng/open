@@ -41,7 +41,6 @@
             :show-timeout="0">
             <span class="el-dropdown-link">
               <i
-
                 class="el-icon-edit-outline" />
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -193,11 +192,12 @@
                 state: '',
                 name: '',
               };
-              if (isEdit) {
-                this.list[this.curIdx] = { ...this.form };
-              } else {
-                this.list.push({ ...model });
-              }
+              this.getList();
+              // if (isEdit) {
+              //   this.list[this.curIdx] = { ...this.form };
+              // } else {
+              //   this.list.push({ ...model });
+              // }
             }).catch(() => {
               this.dataForDialog.loading = false;
             });
@@ -226,8 +226,8 @@
       saveToDb(id, changeId) {
         return changeSeq({ id, changeId }).then(() => {
           this.$message.success('目录保存成功');
-        }).catch(e => {
           this.getList();
+        }).catch(e => {
           throw e; // 因为moveDown和moveUp也用了这个，如果出错应该停止后续的操作
         });
       },

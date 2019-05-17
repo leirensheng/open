@@ -60,6 +60,7 @@ router.beforeEach(async (to, from, next) => {
      next();
    } else { // 未登录非白名单，都重定向到登录页
      next(`/login/index?redirect=${to.path}`);
+     NProgress.done(); // 结束Progress
    }
 });
 

@@ -95,16 +95,17 @@
       moveToCurrentTag() {
         this.$nextTick(() => {
           const tags = this.$refs.tag;
-
-          for (let i = 0; i < tags.length; i += 1) {
-            const tag = tags[i];
-            if (tag.to.path === this.$route.path) {
-              this.$refs.scrollPane.moveToTarget(tag);
-              // when query is different then update
-              if (tag.to.fullPath !== this.$route.fullPath) {
-                this.$store.dispatch('updateVisitedView', this.$route);
+          if (tags) {
+            for (let i = 0; i < tags.length; i += 1) {
+              const tag = tags[i];
+              if (tag.to.path === this.$route.path) {
+                this.$refs.scrollPane.moveToTarget(tag);
+                // when query is different then update
+                if (tag.to.fullPath !== this.$route.fullPath) {
+                  this.$store.dispatch('updateVisitedView', this.$route);
+                }
+                break;
               }
-              break;
             }
           }
         });

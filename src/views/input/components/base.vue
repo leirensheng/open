@@ -66,7 +66,7 @@
         topBtnsConfig: [
           {
             name: '添加',
-            btnType:{ isPlain: true,type:'primary'},
+            btnType: { isPlain: true, type: 'primary' },
             addConfig: {
               title: '添加对接商家',
               handler: this.handleAddOrEdit,
@@ -83,9 +83,11 @@
         copy.externalInterfaceExtendDTOs = this.specialColumns.map(one => ({
           name: one,
           value: form[one],
+          id: form[`${one}Id`],
         }));
         this.specialColumns.forEach(one => {
           delete copy[one];
+          delete copy[`${one}Id`];
         });
 
         return form.id !== undefined ? update(copy) : add(copy);
@@ -95,6 +97,7 @@
         data.forEach(obj => {
           obj.externalInterfaceExtendDTOs.forEach(one => {
             obj[one.name] = one.value;
+            obj[`${one.name}Id`] = one.id;
           });
         });
       },

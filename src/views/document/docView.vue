@@ -33,7 +33,6 @@
         text-color="#6F6F6F"
         active-text-color="#fff"
         :default-active="defaultActive"
-        class="el-menu-vertical-demo"
         @select="handleSelect">
         <el-submenu
           v-for="one in tree"
@@ -145,6 +144,7 @@
    display: flex;
    .left{
      flex: 0 0 270px;
+    box-shadow:0px 1px 10px 0px rgba(0, 0, 0, 0.06);
     .top{
       // display: flex;
       // justify-content: space-between;
@@ -155,15 +155,23 @@
       font-size:22px;
       font-family:MicrosoftYaHei;
       font-weight:400;
-      color:rgba(254,255,255,1);
       line-height:72px;
       .mulu{
         display: inline-block;
         margin-left: 20px;
+        font-size:18px;
+        font-family:MicrosoftYaHei-Bold;
+        font-weight:bold;
+        color:rgba(96,98,102,1);
+        line-height:28px;
       }
 
      .icon-or-input{
        float: right;
+       i{
+         cursor: pointer;
+         color: #2E82FF;
+       }
         .icon-input{
           width: 140px;
           color: black;
@@ -173,9 +181,13 @@
     .loading{
       min-height: calc(100vh - 72px - 86px);
     }
+    .el-menu{
+      border-right: 0;
+    }
    }
    .right{
       flex:1;
+      box-shadow:0px 1px 10px 0px rgba(0, 0, 0, 0.06);
       .right-top{
         padding-left:20px;
         height: 72px;

@@ -1,7 +1,6 @@
 <template>
   <div
-    class="login-container"
-    :style="{backgroundImage: 'url(' + pic + ')' }">
+    class="login-container">
     <div class="form-container">
       <el-form
         ref="loginForm"
@@ -93,8 +92,8 @@
         pic,
         logo,
         loginForm: {
-          username: 'admin',
-          password: 'admin',
+          username: '',
+          password: '',
         },
         loginRules: {
           username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -143,6 +142,8 @@
 $dark_gray:#889aa4;
 $light_gray:#eee;
 .login-container {
+  background: url("../../assets/images/bg.png") no-repeat ;
+
   z-index: 1002;
   position: fixed;
   top:56px;
@@ -154,7 +155,11 @@ $light_gray:#eee;
   height: 100vh;
   // background: at
   .form-container{
-    background-color: white !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 56px);
+    width: 100%;
     .logo{
       width: 100px;
       height: 100px;
@@ -162,13 +167,11 @@ $light_gray:#eee;
       margin-bottom: 20px;
     }
   .login-form {
-    position: absolute;
-    left: 1000px;
-    top:224px;
     // right: 0;
     width: 420px;
     max-width: 100%;
     padding: 60px 40px;
+    margin-left: 660px;
     // margin: 120px auto;
     background-color: white;
   }

@@ -1,67 +1,27 @@
 <template>
   <div>
-    <v-table
-      ref="productionTable"
-      :table-btns-config="tableBtnsConfig"
-      :top-btns-config="topBtnsConfig"
+    <Base
+      :ref="curName"
       :columns="columns"
-      :label-width="'130px'"
+      :cur-name="curName"
       :basic-query-form="basicQueryForm"
-      :get-data="list"
-      @importDict="importDict"
-      @exportDict="exportDict">
-      <div slot="tips">
-        <div>
-          填入对接系统配件产地名称，表示对接系统传入此名称时，系统识别为巴图鲁的“xxx”配件产地。不填则接口不会接入"xxx“产地的数据
-        </div>
-      </div>
-
-      <div slot="template">
-        <span>
-          导入为覆盖式更新， 请务必 <span @click="downloadTemplate">
-            下载导入模板
-          </span>
-        </span>
-      </div>
-    </v-table>
+      :template-url="templateUrl"
+      :tips="tips" />
   </div>
 </template>
 <script>
-  import vTable from '@/components/vTable/vTable.vue';
-  import {
-    list, update, download, upload,
-  } from '@/api/dataRel';
+  import Base from './Base.vue';
+
 
   export default {
     components: {
-      vTable,
+      Base,
     },
     data() {
       return {
-        tableBtnsConfig: [
-          {
-            name: '编辑',
-            editConfig: {
-              title: '配件产地字典匹配关系',
-              handler: update,
-            },
-          },
-        ],
-        topBtnsConfig: [
-          {
-            name: '字典导出',
-            eventName: 'exportDict',
-          },
-          {
-            name: '字典导入',
-            eventName: 'importDict',
-          },
-          {
-            type: 'slot',
-            slotName: 'template',
-            // name: '字典导入',
-          },
-        ],
+        curName: '配件产地字典',
+        tips: '填入对接系统配件产地名称，表示对接系统传入此名称时，系统识别为巴图鲁的“xxx”配件产地。不填则接口不会接入"xxx“产地的数据',
+        templateUrl: '/static/xlsTemplate/partsFactory.xls',
         columns: [
           {
             name: 'id',
@@ -119,26 +79,14 @@
       basicQueryForm() {
         return {
           type: 3,
-          dataValue: '巴图鲁配件产地名称',
+          
           systemId: this.$route.query.systemId,
         };
       },
     },
     methods: {
-      downloadTemplate() {
-        download({ type: 3 });
-      },
-      list,
-      exportDict() {
-        download(this.basicQueryForm);
-      },
-      importDict() {
-        upload(this.basicQueryForm).then(() => {
-          this.search();
-        });
-      },
       search() {
-        this.$refs.productionTable.search();
+        this.$refs[this.curName].search();
       },
     },
   };
