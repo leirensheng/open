@@ -23,6 +23,8 @@ export function download(params) {
     url: '/open/supplier/dataRel/export',
     method: 'get',
     params,
+    responseType: 'blob',
+
   });
 }
 // 导入

@@ -66,7 +66,9 @@
         loading: false,
         form: {},
         rules: {
-
+          password: [
+            { trigger: 'blur', required: true },
+          ],
           updatePassword: [
             { validator: validatePass, trigger: 'blur', required: true },
           ],
@@ -92,6 +94,9 @@
             id: 'name',
             type: 'text',
           }, {
+            name: '原密码',
+            id: 'password',
+          }, {
             name: '新密码',
             id: 'updatePassword',
           }, {
@@ -102,7 +107,7 @@
     },
     computed: {
       ...mapGetters([
-        'systemName', 'userName', 'name', 'id', 'password',
+        'systemName', 'userName', 'name', 'id', 
       ]),
     },
     mounted() {
@@ -116,7 +121,7 @@
         this.$refs.form.validate(valid => {
           if (valid) {
             this.loading = true;
-            updateUserPassword({ ...this.form, password: this.password }).then(() => {
+            updateUserPassword({ ...this.form }).then(() => {
               this.loading = false;
               this.$store.dispatch('LogOut');
             }).catch(() => {

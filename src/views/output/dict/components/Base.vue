@@ -111,7 +111,13 @@
       },
 
       exportDict() {
-        download(this.basicQueryForm);
+        download(this.basicQueryForm).then(data => {
+          const aLink = document.createElement('a');
+          const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
+          aLink.href = URL.createObjectURL(blob);
+          aLink.click();
+          document.body.appendChild(aLink);
+        });
       },
       search() {
         this.$refs.brandTable.search();

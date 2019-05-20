@@ -45,7 +45,9 @@ axios.interceptors.response.use(
     const res = response.data;
     // if the custom code is not 20000, it is judged as an error.
     return new Promise((resolve, reject) => {
-      if (res.code == 4) {
+      if (response.headers['content-disposition']) {
+        resolve(res);
+      } else if (res.code == 4) {
         Message({
           message: res.msg || 'error',
           type: 'error',
