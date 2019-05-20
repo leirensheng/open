@@ -6,14 +6,14 @@
       :visible="inputs.show"
       :close-on-click-modal="false"
       :before-close="()=>inputs.show=false"
-      width="32%"
+      :width="inputs.dailogWidth"
       center
       @close="close"
       @open="open">
       <el-form
         ref="form"
         :model="form"
-        size="large"
+        :size="inputs.formSize"
         :validate-on-rule-change="false"
         :label-width="inputs.labelWidth+'px'"
         :rules="formRules">
@@ -127,18 +127,9 @@
     props: {
       inputs: {
         type: Object,
+        required: true,
       },
-      title: {
-        type: String,
-      },
-      basicAddForm: {
-        type: Object,
-        default: () => null,
-      },
-      basicEditForm: {
-        type: Object,
-        default: () => null,
-      },
+
     },
     data() {
       return {
@@ -196,15 +187,15 @@
         if (this.inputs.mode === 'edit') {
           this.form = JSON.parse(JSON.stringify(this.inputs.form));
 
-          const notPostArr = ['updateUser', 'updateTime', 'password', 'updatePassword', 'createTime'];
-          notPostArr.forEach(one => {
+
+          this.inputs.notSendColumns.forEach(one => {
             if (!this.showItems.map(column => column.id).includes(one)) {
               delete this.form[one];
             }
           });
 
-          if (this.basicEditForm) {
-            this.form = { ...this.form, ...this.basicEditForm };
+          if (this.inputs.basicEditForm) {
+            this.form = { ...this.form, ...this.inputs.basicEditForm };
           }
         } else {
           this.inputs.items.forEach(one => {
@@ -212,8 +203,8 @@
               this.$set(this.form, one.id, '');
             }
           });
-          if (this.basicAddForm) {
-            this.form = { ...this.form, ...this.basicAddForm };
+          if (this.inputs.basicAddForm) {
+            this.form = { ...this.form, ...this.inputs.basicAddForm };
           }
         }
       },

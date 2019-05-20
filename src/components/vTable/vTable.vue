@@ -1,3 +1,4 @@
+/* eslint-disable vue/valid-v-for */
 <template>
   <div class="table-wrap">
     <h2
@@ -45,6 +46,7 @@
           v-if="currentCount==initCount &&!noShowPagination"
           class="selContainer">
           <el-button
+            v-if="!noShowSearchBtn"
             type="primary"
             size="large"
             @click="search(true)">
@@ -52,13 +54,15 @@
           </el-button>
 
           <template
-            v-for="btnConfig in topBtnsConfig">
+            v-for="(btnConfig,index) in topBtnsConfig">
             <slot
               v-if="btnConfig.type==='slot'"
               :name="btnConfig.slotName" />
 
+
             <el-upload
               v-else-if="btnConfig.type=='upload'"
+              :key="index"
               style="margin:0 8px"
               :show-file-list="false"
               :action="btnConfig.action"
@@ -70,29 +74,21 @@
                 :loading="uploading"
                 size="large"
                 :plain="btnConfig.btnType&&btnConfig.btnType.isPlain"
-                :type="typeof btnConfig.btnType==='object'?btnConfig.btnType.type :(btnConfig.btnType||'primary')">
+                :type="getBtnType(btnConfig)">
                 {{ btnConfig.name }}
               </el-button>
             </el-upload>
 
             <el-button
               v-else
+              :key="index"
               :plain="btnConfig.btnType&&btnConfig.btnType.isPlain"
-              :type="typeof btnConfig.btnType==='object'?btnConfig.btnType.type :(btnConfig.btnType||'primary')"
+              :type="getBtnType(btnConfig)"
               size="large"
               @click="()=>handleTopBtnClick(btnConfig)">
               {{ btnConfig.name }}
             </el-button>
           </template>
-
-          <!--
-          <el-button
-            v-if="multipleSelection.length"
-            type="danger"
-            size="small"
-            @click="deleteSel">
-            删除选中项
-          </el-button>  -->
         </div>
       </div>
       <div class="table">
@@ -167,8 +163,6 @@
       <v-dialog
         ref="vDialog"
         :inputs="dataForDialog"
-        :basic-add-form="basicAddForm"
-        :basic-edit-form="basicEditForm"
         @dialogClose="dialogClose"
         @edit="saveDialogEdit"
         @add="saveDialogAdd">
@@ -234,23 +228,37 @@
       },
 
 
-      // 表格查询之前处理
-      handleQueryParams: {
-        type: Function,
-      },
-
       getData: {
         type: Function,
+        required: true,
       },
 
       noShowPagination: {
         default: () => false,
         type: Boolean,
       },
+
+      noShowSearchBtn: {
+        default: () => false,
+        type: Boolean,
+      },
+
       showSelection: {
         defalut: () => false,
         type: Boolean,
-
+      },
+      // 修改的时候不传给后端的字段
+      notSendColumns: {
+        type: Array,
+        default: () => ['updateUser', 'updateTime', 'password', 'updatePassword', 'createTime'],
+      },
+      dailogWidth: {
+        type: String,
+        default: () => '33%',
+      },
+      formSize: {
+        type: String,
+        default: () => 'large',
       },
     },
     data() {
@@ -262,7 +270,12 @@
           index: '', // 当前编辑行在表格的索引
           items: [], // 字段
           loading: false,
+          formSize: this.formSize,
+          dailogWidth: this.dailogWidth,
           labelWidth: this.labelWidth,
+          basicAddForm: this.basicAddForm,
+          basicEditForm: this.basicEditForm,
+          notSendColumns: this.notSendColumns,
         },
         total: 0,
         pageSize: 20,
@@ -347,6 +360,9 @@
       });
     },
     methods: {
+      getBtnType(btnConfig, defaultType = 'primary') {
+        return typeof btnConfig.btnType === 'object' ? btnConfig.btnType.type : (btnConfig.btnType || defaultType);
+      },
       handlerUploadErr() {
         this.uploading = false;
         this.$message.error('文件上传失败');
@@ -434,10 +450,8 @@
           pageSize: this.pageSize,
           pagination: this.pageNo,
         };
-        let finalParams = Object.assign(params, this.queryParams, this.basicQueryForm);
-        if (this.handleQueryParams) {
-          finalParams = this.handleQueryParams(params);
-        }
+        const finalParams = Object.assign(params, this.queryParams, this.basicQueryForm);
+        this.$emit('beforeQuery', finalParams);
 
         this.getData(finalParams)
           .then(res => {
