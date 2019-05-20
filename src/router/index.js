@@ -29,7 +29,7 @@ export const basicRoutes = [
     hidden: true,
     redirect: 'welcome/index',
     component: Layout,
-    
+
   },
   {
     path: '/doc',
@@ -100,25 +100,25 @@ export const userRoutes = [
        },
     ],
   },
-  {
-    path: '/test-params',
-    component: Layout,
-    alwaysShow: true,
-    hidden: true,
-    meta: {
-      title: '测试参数',
-    },
-    children: [
-      {
-        path: 'index',
-        name: 'TestParams',
-        component: () => import('@/views/user/testParams.vue'),
-        meta: {
-          title: '测试参数',
-        },
-       },
-    ],
-  },
+  // {
+  //   path: '/test-params',
+  //   component: Layout,
+  //   alwaysShow: true,
+  //   hidden: true,
+  //   meta: {
+  //     title: '测试参数',
+  //   },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'TestParams',
+  //       component: () => import('@/views/user/testParams.vue'),
+  //       meta: {
+  //         title: '测试参数',
+  //       },
+  //      },
+  //   ],
+  // },
   {
     path: '/business',
     component: Layout,
