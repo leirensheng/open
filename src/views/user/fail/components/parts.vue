@@ -4,7 +4,7 @@
       ref="partsTable"
       :basic-query-form="basicQueryForm"
       :columns="columns"
-      :label-width="'130px'"
+      :label-width="130"
       :get-data="partsFailList" />
   </div>
 </template>

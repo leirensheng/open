@@ -182,9 +182,8 @@
       save() {
         this.$refs.form.validate(valid => {
           if (valid) {
-            const isEdit = typeof this.form.id == 'number';
             this.dataForDialog.loading = true;
-            saveMenu(this.form).then(({ model }) => {
+            saveMenu(this.form).then(() => {
               this.dataForDialog.loading = false;
               this.dataForDialog.visible = false;
               this.$refs.form.resetFields();

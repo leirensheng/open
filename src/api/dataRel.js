@@ -20,7 +20,7 @@ export function update(data) {
 // 下载模板
 export function download(params) {
   return fetch({
-    url: '/open/supplier/dataRel/download',
+    url: '/open/supplier/dataRel/export',
     method: 'get',
     params,
   });

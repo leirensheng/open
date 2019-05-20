@@ -4,7 +4,7 @@
       ref="priceTable"
       :basic-query-form="basicQueryForm"
       :columns="columns"
-      :label-width="'130px'"
+      :label-width="130"
       :get-data="priceFailList" />
   </div>
 </template>

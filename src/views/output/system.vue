@@ -4,7 +4,7 @@
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
       :columns="columns"
-      :label-width="'130px'"
+      :label-width="130"
       :get-data="list"
       @gotoDict="(rowData)=>{gotoPage(rowData, 'Dict')}"
       @gotoBusiness="(rowData)=>gotoPage(rowData,'Business')"

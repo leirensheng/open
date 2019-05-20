@@ -8,7 +8,7 @@
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
       :columns="columns"
-      :label-width="'130px'"
+      :label-width="130"
       :get-data="list"
       :basic-add-form="basicAddForm"
       :basic-query-form="basicQueryForm"
@@ -55,7 +55,7 @@
         topBtnsConfig: [
           {
             name: '添加',
-            btnType:{ isPlain: true,type:'primary'},
+            btnType: { isPlain: true, type: 'primary' },
             addConfig: {
               title: '添加对接供应商',
               handler: add,

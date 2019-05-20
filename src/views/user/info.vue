@@ -3,7 +3,7 @@
     <v-table
       :table-btns-config="tableBtnsConfig"
       :columns="columns"
-      :label-width="'130px'"
+      :label-width="130"
       :get-data="list"
       @seeFail="handleSeeFail" />
   </div>

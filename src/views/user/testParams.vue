@@ -3,9 +3,9 @@
     <v-table
       ref="table"
       :columns="columns"
-      :label-width="'130px'"
+      :label-width="130"
       :get-data="getData"
-      :no-show-pagination="true"/>
+      :no-show-pagination="true" />
   </div>
 </template>
 <script>

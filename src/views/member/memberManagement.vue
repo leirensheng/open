@@ -5,7 +5,7 @@
       :top-btns-config="topBtnsConfig"
       :columns="columns"
       :get-data="list"
-      :label-width="'120px'"
+      :label-width="120"
       @endUse="handleEndUse"
       @beforeDialogOpen="beforeDialogOpen"
 
@@ -49,7 +49,7 @@
         topBtnsConfig: [
           {
             name: '添加',
-            btnType:{ isPlain: true,type:'primary'},
+            btnType: { isPlain: true, type: 'primary' },
             addConfig: {
               title: '新增人员',
               handler: add,

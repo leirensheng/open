@@ -190,8 +190,10 @@
   export default {
     components: { Pagination, VDialog },
     props: {
+      // 表单字段名宽度，单位为px
       labelWidth: {
-        type: [Number, String],
+        type: Number,
+        default: () => 90,
       },
       columns: {
         type: Array,

@@ -15,7 +15,7 @@
         :model="form"
         size="large"
         :validate-on-rule-change="false"
-        :label-width="inputs.labelWidth||'90px'"
+        :label-width="inputs.labelWidth+'px'"
         :rules="formRules">
         <div
           v-for="(one,index) in showItems"

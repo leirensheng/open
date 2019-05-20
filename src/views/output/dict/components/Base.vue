@@ -5,7 +5,7 @@
       :table-btns-config="tableBtnsConfig"
       :top-btns-config="topBtnsConfig"
       :columns="columns"
-      :label-width="'130px'"
+      :label-width="130"
       :basic-query-form="basicQueryForm"
       :get-data="list"
       @uploadDone="uploadDone"
