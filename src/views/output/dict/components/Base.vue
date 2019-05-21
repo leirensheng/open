@@ -20,8 +20,8 @@
         <span>
           导入为覆盖式更新， 请务必
           <a
-            class="downlink"
-            :href="templateUrl">
+            :href="`/${templateName}.xls`"
+            class="downlink">
             下载导入模板
           </a>
         </span>
@@ -32,7 +32,7 @@
 <script>
   import vTable from '@/components/vTable/vTable.vue';
   import {
-    list, update, download,
+    list, update, download, exportExcel,
   } from '@/api/dataRel';
 
   export default {
@@ -76,7 +76,13 @@
       };
     },
     computed: {
-
+      templateName() {
+        switch (this.basicQueryForm.type) {
+        case 1: return 'carBrand';
+        case 2: return 'partsBrand';
+        default: return 'partsFactory';
+        }
+      },
 
       topBtnsConfig() {
         return [
@@ -109,9 +115,17 @@
       uploadDone() {
         this.search();
       },
-
+      // downloadTemplate() {
+      //   download({ type: this.basicQueryForm.type }).then(data => {
+      //     const aLink = document.createElement('a');
+      //     const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
+      //     aLink.href = URL.createObjectURL(blob);
+      //     aLink.click();
+      //     document.body.appendChild(aLink);
+      //   });
+      // },
       exportDict() {
-        download(this.basicQueryForm).then(data => {
+        exportExcel(this.basicQueryForm).then(data => {
           const aLink = document.createElement('a');
           const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
           aLink.href = URL.createObjectURL(blob);

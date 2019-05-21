@@ -17,16 +17,24 @@ export function update(data) {
     data,
   });
 }
-// 下载模板
-export function download(params) {
+// 导出
+export function exportExcel(params) {
   return fetch({
     url: '/open/supplier/dataRel/export',
     method: 'get',
     params,
     responseType: 'blob',
-
   });
 }
+
+// export function download(params) {
+//   return fetch({
+//     url: '/open/supplier/dataRel/download',
+//     method: 'get',
+//     params,
+//     responseType: 'blob',
+//   });
+// }
 // 导入
 export function upload(data) {
   return fetch({

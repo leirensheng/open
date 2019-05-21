@@ -88,3 +88,12 @@ export function search(params) {
     params,
   });
 }
+
+// 图片上传
+export function uploadPic(data) {
+  return fetch({
+    url: 'open/supplier/file/upload',
+    method: 'post',
+    data,
+  });
+}

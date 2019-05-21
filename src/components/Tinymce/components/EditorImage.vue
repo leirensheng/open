@@ -17,7 +17,7 @@
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
-        action="https://httpbin.org/post"
+        action="open/supplier/file/upload"
         list-type="picture-card">
         <el-button
           size="small"
@@ -69,12 +69,12 @@
         this.fileList = [];
         this.dialogVisible = false;
       },
-      handleSuccess(response, file) {
+      handleSuccess({ model: { model } }, file) {
         const uid = file.uid;
         const objKeyArr = Object.keys(this.listObj);
         for (let i = 0, len = objKeyArr.length; i < len; i++) {
           if (this.listObj[objKeyArr[i]].uid === uid) {
-            this.listObj[objKeyArr[i]].url = response.files.file;
+            this.listObj[objKeyArr[i]].url = model;
             this.listObj[objKeyArr[i]].hasSuccess = true;
             return;
           }
@@ -94,10 +94,12 @@
         const _self = this;
         const _URL = window.URL || window.webkitURL;
         const fileName = file.uid;
+        console.log(file);
         this.listObj[fileName] = {};
         return new Promise((resolve, reject) => {
           const img = new Image();
           img.src = _URL.createObjectURL(file);
+          console.log('22222', img.src);
           img.onload = function () {
             _self.listObj[fileName] = {
               hasSuccess: false, uid: file.uid, width: this.width, height: this.height,
