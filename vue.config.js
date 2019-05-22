@@ -6,14 +6,6 @@ function resolve(dir) {
   return path.join(__dirname, './', dir);
 }
 
-console.log(process.env.npm_config_env);
-const isOnline = process.env.npm_config_env === 'online';
-
-function getBaseUrl() {
-  return isOnline ? '//static.qipeipu.com/btr_xx_static/' : '/';
-}
-
-
 module.exports = {
   /**
    * You can set by yourself according to actual condition
@@ -23,7 +15,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail https://cli.vuejs.org/config/#baseurl
    */
-  baseUrl: getBaseUrl(),
+  baseUrl: require('./path.config.js'),
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: false,

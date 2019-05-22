@@ -28,7 +28,7 @@
             @change="(val)=>{handleQueryChange(val, column.id)}">
             <el-option
               v-for="option in column.optionsForTable||column.options"
-              :key="option.id"
+              :key="column.sourceFormat?option[column.sourceFormat.value]:option.id"
               :value="column.sourceFormat?option[column.sourceFormat.value]:option.id"
               :label="column.sourceFormat?option[column.sourceFormat.label]: option.name" />
           </el-select>
