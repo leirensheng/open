@@ -1,7 +1,7 @@
 
 
 const env = process.env.npm_config_env || 'dev';
-const prodRoot = '/btr_open_supplier_static/';
+const prodRoot = '/btr_open_static/';
 const envMapping = {
   dev: '/',
   test: `//test-static.qipeipu.net${prodRoot}`,
