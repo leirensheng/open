@@ -39,7 +39,7 @@
     "chalk": "2.4.1",
     "connect": "3.6.6",
     "eslint-plugin-vue": "^5.1.0",
-    "node-sass": "^4.9.3",
+    "node-sass": "^7.0.0",
     "runjs": "^4.4.2",
     "sass-loader": "7.1.0",
     "sass-resources-loader": "^2.0.0",
